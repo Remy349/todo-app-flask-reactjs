@@ -21,3 +21,6 @@ def create_app(config_class=Config):
     migrate.init_app(app, db, compare_type=True)
 
     return app
+
+
+from flaskr import models
