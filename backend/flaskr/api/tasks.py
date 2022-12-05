@@ -1,6 +1,7 @@
 from flaskr.api import bp
 from flaskr import db
 from flask import jsonify, request
+from flaskr.api.errors import bad_request
 
 from flaskr.models import Task
 
@@ -25,14 +26,40 @@ def get_tasks():
 
 @bp.route("/tasks", methods=["POST"])
 def create_task():
-    return "Create a task"
+    data = request.get_json() or {}
+
+    if "title" not in data or "description" not in data:
+        return bad_request("Must include title and description fields!")
+
+    task = Task()
+    task.from_dict(data)
+
+    db.session.add(task)
+    db.session.commit()
+
+    response = jsonify(task.to_dict())
+    response.status_code = 201
+
+    return response
 
 
 @bp.route("/tasks/<int:id_task>", methods=["PUT"])
 def update_task(id_task):
-    return f"Update task: {id_task}"
+    data = request.get_json() or {}
+    task = db.get_or_404(Task, id_task)
+
+    task.from_dict(data)
+
+    db.session.commit()
+
+    return jsonify(task.to_dict())
 
 
 @bp.route("/tasks/<int:id_task>", methods=["DELETE"])
 def delete_task(id_task):
-    return f"Delete task: {id_task}"
+    task = db.get_or_404(Task, id_task)
+
+    db.session.delete(task)
+    db.session.commit()
+
+    return "", 204
