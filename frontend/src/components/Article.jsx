@@ -1,13 +1,10 @@
 import React from 'react'
-import styled from 'styled-components'
-
-const FormTask = styled.form``
-
-const InputFormTask = styled.input``
-
-const TextareaFormTask = styled.textarea``
-
-const ButtonFormTask = styled.button``
+import {
+  FormTask,
+  InputFormTask,
+  TextareaFormTask,
+  ButtonFormTask,
+} from './styled/FormStyled'
 
 export const Article = () => {
   return (
@@ -28,6 +25,7 @@ export const Article = () => {
               name='description'
               className='form__textarea'
               rows='5'
+              placeholder='Description'
             />
           </div>
           <div className='form__btn'>

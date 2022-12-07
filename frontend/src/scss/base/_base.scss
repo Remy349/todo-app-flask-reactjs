@@ -1,3 +1,5 @@
+@use '../utils/colors' as c;
+
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
 
 * {
@@ -8,6 +10,7 @@
 
 body {
   font-family: 'Caveat', cursive;
+  background-color: c.$bg-color;
 }
 
 a {

@@ -1,0 +1,43 @@
+@use '../utils/colors' as c;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 6rem;
+
+  &__logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: c.$font-color;
+    cursor: default;
+  }
+
+  &__darkmode {
+    &-btn {
+      outline: none;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: c.$bg-color-two;
+      width: 2.5rem;
+      height: 2.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,.1);
+      border-radius: 1rem;
+
+      &_moon {
+        font-size: 1.5rem;
+        color: c.$font-color;
+      }
+    }
+  }
+}
