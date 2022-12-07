@@ -24,7 +24,7 @@ export const Article = () => {
             <TextareaFormTask
               name='description'
               className='form__textarea'
-              rows='5'
+              rows='4'
               placeholder='Description'
             />
           </div>

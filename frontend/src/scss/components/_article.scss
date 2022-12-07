@@ -1,0 +1,24 @@
+@use '../utils/colors' as c;
+
+.article {
+  margin-top: 2rem;
+}
+
+.form {
+  &__input {
+    background-color: c.$bg-color-two;
+    color: c.$font-color-two;
+  }
+
+  &__textarea {
+    background-color: c.$bg-color-two;
+    color: c.$font-color-two;
+  }
+
+  &__btn {
+    &-create {
+      background-color: c.$green-light-color;
+      color: c.$bg-color-two;
+    }
+  }
+}

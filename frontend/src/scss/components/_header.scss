@@ -11,11 +11,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 6rem;
+  height: 5rem;
 
   &__logo {
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     color: c.$font-color;
     cursor: default;
   }
@@ -28,14 +28,14 @@
       justify-content: center;
       align-items: center;
       background-color: c.$bg-color-two;
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 2.7rem;
+      height: 2.7rem;
       cursor: pointer;
       box-shadow: 0 4px 20px rgba(0,0,0,.1);
       border-radius: 1rem;
 
       &_moon {
-        font-size: 1.5rem;
+        font-size: 1.7rem;
         color: c.$font-color;
       }
     }
