@@ -1,0 +1,17 @@
+@use './colors' as c;
+
+@mixin card-button($bg-color) {
+  cursor: pointer;
+  border-radius: 1rem;
+  width: 3rem;
+  height: 3rem;
+  outline: none;
+  border: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,.1);
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: c.$bg-color-two;
+  background-color: $bg-color;
+}

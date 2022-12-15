@@ -78,25 +78,17 @@ export const Article = () => {
         </FormTask>
       </section>
       <section className='article__content'>
-        <div className='article__content-cards'>
+        <div className='cards'>
           {tasks.map((task) => (
-            <div className='article__content-card' key={task.id_task}>
-              <h2 className='article__content-card_title'>{task.title}</h2>
-              <p className='article__content-card_description'>
-                {task.description}
-              </p>
-              <div className='article__content-card_btns'>
-                <button
-                  className='article__content-card_btns_edit'
-                  type='button'
-                >
-                  <FiEdit className='article__content-card_btns_icon' />
+            <div className='cards__card' key={task.id_task}>
+              <h2 className='cards__card-title'>{task.title}</h2>
+              <p className='cards__card-description'>{task.description}</p>
+              <div className='cards__card-btns'>
+                <button className='cards__card-btns_edit' type='button'>
+                  <FiEdit className='cards__card-btns_icon' />
                 </button>
-                <button
-                  className='article__content-card_btns_delete'
-                  type='button'
-                >
-                  <FiTrash2 className='article__content-card_btns_icon' />
+                <button className='cards__card-btns_delete' type='button'>
+                  <FiTrash2 className='cards__card-btns_icon' />
                 </button>
               </div>
             </div>

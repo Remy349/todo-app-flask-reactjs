@@ -1,7 +1,10 @@
 @use '../utils/colors' as c;
+@use '../utils/mixins' as m;
 
 .article {
   margin-top: 2rem;
+  display: grid;
+  row-gap: 4rem;
 }
 
 .form {
@@ -19,6 +22,47 @@
     &-create {
       background-color: c.$green-light-color;
       color: c.$bg-color-two;
+    }
+  }
+}
+
+.cards {
+  display: grid;
+  row-gap: 1.5rem;
+
+  &__card {
+    background-color: c.$bg-color-two;
+    border-radius: 1rem;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,.1);
+
+    &-title,
+    &-description {
+      text-align: left;
+    }
+
+    &-title {
+      font-size: 1.7rem;
+      margin-bottom: .7rem;
+      text-decoration: underline;
+    }
+
+    &-description {
+      font-size: 1.3rem;
+    }
+
+    &-btns {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 2rem;
+
+      &_edit {
+        @include m.card-button(c.$green-light-color);
+      }
+
+      &_delete {
+        @include m.card-button(c.$red-color);
+      }
     }
   }
 }
