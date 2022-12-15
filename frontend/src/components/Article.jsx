@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { FiEdit, FiTrash2 } from 'react-icons/fi'
 import {
   FormTask,
   InputFormTask,
@@ -36,7 +37,7 @@ export const Article = () => {
 
     const data = await res.json()
 
-    // console.log(data.items)
+    console.log(data)
     setTasks(data.items)
   }
 
@@ -77,7 +78,30 @@ export const Article = () => {
         </FormTask>
       </section>
       <section className='article__content'>
-        {tasks.length === 0 ? <h1>Empty</h1> : <div>{tasks[0].title}</div>}
+        <div className='article__content-cards'>
+          {tasks.map((task) => (
+            <div className='article__content-card' key={task.id_task}>
+              <h2 className='article__content-card_title'>{task.title}</h2>
+              <p className='article__content-card_description'>
+                {task.description}
+              </p>
+              <div className='article__content-card_btns'>
+                <button
+                  className='article__content-card_btns_edit'
+                  type='button'
+                >
+                  <FiEdit className='article__content-card_btns_icon' />
+                </button>
+                <button
+                  className='article__content-card_btns_delete'
+                  type='button'
+                >
+                  <FiTrash2 className='article__content-card_btns_icon' />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
     </article>
   )
