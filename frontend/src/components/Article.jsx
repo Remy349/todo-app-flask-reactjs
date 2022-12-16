@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import moment from 'moment'
-import { FiEdit, FiTrash2 } from 'react-icons/fi'
+import { FiEdit, FiTrash2, FiChevronRight, FiChevronLeft } from 'react-icons/fi'
 import {
   FormTask,
   InputFormTask,
@@ -12,6 +12,10 @@ const API = import.meta.env.VITE_API_URL
 
 export const Article = () => {
   const [tasks, setTasks] = useState([])
+  const [pagination, setPagination] = useState({
+    next: '',
+    prev: '',
+  })
   const [inputs, setInputs] = useState({
     title: '',
     description: '',
@@ -31,19 +35,24 @@ export const Article = () => {
     e.preventDefault()
   }
 
-  const getTasks = async () => {
-    const res = await fetch(`${API}/api/tasks`, {
+  const getTasks = async (linkCall) => {
+    if (linkCall === null) return
+
+    const res = await fetch(`${API}${linkCall}`, {
       method: 'GET',
     })
 
     const data = await res.json()
 
-    console.log(data)
     setTasks(data.items)
+    setPagination({
+      next: data.links.next,
+      prev: data.links.prev,
+    })
   }
 
   useEffect(() => {
-    getTasks()
+    getTasks('/api/tasks')
   }, [])
 
   return (
@@ -97,6 +106,22 @@ export const Article = () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className='pagination'>
+          <button
+            className='pagination__left'
+            type='button'
+            onClick={() => getTasks(pagination.prev)}
+          >
+            <FiChevronLeft className='pagination__left-icon' />
+          </button>
+          <button
+            className='pagination__right'
+            type='button'
+            onClick={() => getTasks(pagination.next)}
+          >
+            <FiChevronRight className='pagination__right-icon' />
+          </button>
         </div>
       </section>
     </article>

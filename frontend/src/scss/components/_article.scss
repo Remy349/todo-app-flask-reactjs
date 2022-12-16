@@ -73,3 +73,35 @@
     }
   }
 }
+
+.pagination {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: c.$bg-color-two;
+  width: 100%;
+  border-top-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,.1);
+  height: 5rem;
+
+  &__left,
+  &__right {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    background-color: c.$green-light-color;
+    cursor: pointer;
+    border: none;
+    outline: none;
+
+    &-icon {
+      font-size: 2rem;
+      color: c.$bg-color-two;
+    }
+  }
+}
