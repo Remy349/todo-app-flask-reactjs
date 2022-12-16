@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import moment from 'moment'
 import { FiEdit, FiTrash2 } from 'react-icons/fi'
 import {
   FormTask,
@@ -83,6 +84,9 @@ export const Article = () => {
             <div className='cards__card' key={task.id_task}>
               <h2 className='cards__card-title'>{task.title}</h2>
               <p className='cards__card-description'>{task.description}</p>
+              <p className='cards__card-timestamp'>
+                Created: {moment(task.timestamp).fromNow()}
+              </p>
               <div className='cards__card-btns'>
                 <button className='cards__card-btns_edit' type='button'>
                   <FiEdit className='cards__card-btns_icon' />
