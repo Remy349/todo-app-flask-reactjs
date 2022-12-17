@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import moment from 'moment'
-import { FiEdit, FiTrash2, FiChevronRight, FiChevronLeft } from 'react-icons/fi'
+import {
+  FiChevronRight,
+  FiChevronLeft,
+  FiThumbsUp,
+  FiThumbsDown,
+} from 'react-icons/fi'
+import { Card } from './articleComponents/Card'
 import {
   FormTask,
   InputFormTask,
@@ -68,6 +73,11 @@ export const Article = () => {
     getTasks(pagination.self)
   }
 
+  // -> Delete a task : DELETE
+  const deleteTask = async (idTask) => {
+    console.log(idTask)
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -85,6 +95,21 @@ export const Article = () => {
 
   return (
     <article className='article'>
+      <section className='article__confirm'>
+        <div className='modalbox'>
+          <h3 className='modalbox__title'>
+            Are you sure you want to delete the task?
+          </h3>
+          <div className='modalbox__btns'>
+            <button className='modalbox__btns-confirm' type='button'>
+              <FiThumbsUp className='modalbox__btns-icon' />
+            </button>
+            <button className='modalbox__btns-cancel' type='button'>
+              <FiThumbsDown className='modalbox__btns-icon' />
+            </button>
+          </div>
+        </div>
+      </section>
       <section className='article__form'>
         <FormTask className='form' onSubmit={handleSubmit}>
           <div className='form__container'>
@@ -118,21 +143,14 @@ export const Article = () => {
       <section className='article__content'>
         <div className='cards'>
           {tasks.map((task) => (
-            <div className='cards__card' key={task.id_task}>
-              <h2 className='cards__card-title'>{task.title}</h2>
-              <p className='cards__card-description'>{task.description}</p>
-              <p className='cards__card-timestamp'>
-                Created: {moment(task.timestamp).fromNow()}
-              </p>
-              <div className='cards__card-btns'>
-                <button className='cards__card-btns_edit' type='button'>
-                  <FiEdit className='cards__card-btns_icon' />
-                </button>
-                <button className='cards__card-btns_delete' type='button'>
-                  <FiTrash2 className='cards__card-btns_icon' />
-                </button>
-              </div>
-            </div>
+            <Card
+              key={task.id_task}
+              idTask={task.id_task}
+              title={task.title}
+              description={task.description}
+              timestamp={task.timestamp}
+              deleteTask={deleteTask}
+            />
           ))}
         </div>
         <div className='pagination'>

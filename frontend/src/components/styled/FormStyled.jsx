@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const FormTask = styled.form`
-  max-width: 30rem;
+  width: 100%;
   display: grid;
   row-gap: 1rem;
 `

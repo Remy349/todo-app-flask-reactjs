@@ -5,6 +5,49 @@
   margin-top: 2rem;
   display: grid;
   row-gap: 4rem;
+  position: relative;
+
+  &__confirm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.5);
+    height: 100vh;
+    width: 100%;
+    z-index: 2;
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.modalbox {
+  background-color: c.$bg-color-two;
+  border-radius: 1rem;
+  padding: 3rem 1.8rem;
+  width: 80%;
+  box-shadow: 0 4px 20px rgba(0,0,0,.1);
+
+  &__title {
+    font-size: 1.35rem;
+    text-align: center;
+    letter-spacing: .1rem;
+  }
+
+  &__btns {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    &-confirm {
+      @include m.card-button(c.$green-light-color);
+    }
+
+    &-cancel {
+      @include m.card-button(c.$red-color);
+    }
+  }
 }
 
 .form {
