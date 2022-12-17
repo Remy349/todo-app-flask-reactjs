@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {
-  FiChevronRight,
-  FiChevronLeft,
-  FiThumbsUp,
-  FiThumbsDown,
-} from 'react-icons/fi'
 import { Card } from './articleComponents/Card'
+import { FiChevronRight, FiChevronLeft } from 'react-icons/fi'
 import {
   FormTask,
   InputFormTask,
@@ -70,12 +65,20 @@ export const Article = () => {
     const data = await res.json()
     console.log(data)
 
-    getTasks(pagination.self)
+    await getTasks(pagination.self)
   }
 
   // -> Delete a task : DELETE
   const deleteTask = async (idTask) => {
-    console.log(idTask)
+    const confirm = window.confirm('Are you sure you want to delete the task?')
+
+    if (confirm) {
+      await fetch(`${API}/api/tasks/${idTask}`, {
+        method: 'DELETE',
+      })
+
+      await getTasks(pagination.self)
+    }
   }
 
   const handleSubmit = (e) => {
@@ -95,21 +98,6 @@ export const Article = () => {
 
   return (
     <article className='article'>
-      <section className='article__confirm'>
-        <div className='modalbox'>
-          <h3 className='modalbox__title'>
-            Are you sure you want to delete the task?
-          </h3>
-          <div className='modalbox__btns'>
-            <button className='modalbox__btns-confirm' type='button'>
-              <FiThumbsUp className='modalbox__btns-icon' />
-            </button>
-            <button className='modalbox__btns-cancel' type='button'>
-              <FiThumbsDown className='modalbox__btns-icon' />
-            </button>
-          </div>
-        </div>
-      </section>
       <section className='article__form'>
         <FormTask className='form' onSubmit={handleSubmit}>
           <div className='form__container'>
