@@ -15,6 +15,7 @@ export const Article = () => {
   const [pagination, setPagination] = useState({
     next: '',
     prev: '',
+    self: '',
   })
   const [inputs, setInputs] = useState({
     title: '',
@@ -31,10 +32,7 @@ export const Article = () => {
     })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-  }
-
+  // -> Get all tasks : GET
   const getTasks = async (linkCall) => {
     if (linkCall === null) return
 
@@ -48,6 +46,36 @@ export const Article = () => {
     setPagination({
       next: data.links.next,
       prev: data.links.prev,
+      self: data.links.self,
+    })
+  }
+
+  // -> Create a task : POST
+  const createTask = async () => {
+    const res = await fetch(`${API}/api/tasks`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...inputs,
+      }),
+    })
+
+    const data = await res.json()
+    console.log(data)
+
+    getTasks(pagination.self)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    createTask()
+
+    setInputs({
+      title: '',
+      description: '',
     })
   }
 
