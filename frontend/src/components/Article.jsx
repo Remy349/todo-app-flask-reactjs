@@ -12,6 +12,8 @@ const API = import.meta.env.VITE_API_URL
 
 export const Article = () => {
   const [tasks, setTasks] = useState([])
+  const [isEdit, setIsEdit] = useState(false)
+  const [currentId, setCurrentId] = useState(null)
   const [pagination, setPagination] = useState({
     next: '',
     prev: '',
@@ -32,7 +34,7 @@ export const Article = () => {
     })
   }
 
-  // -> Get all tasks : GET
+  // ==> Get all tasks : GET
   const getTasks = async (linkCall) => {
     if (linkCall === null) return
 
@@ -50,7 +52,24 @@ export const Article = () => {
     })
   }
 
-  // -> Create a task : POST
+  // ==> Get a single task : GET
+  const getTask = async (idTask) => {
+    const res = await fetch(`${API}/api/tasks/${idTask}`, {
+      method: 'GET',
+    })
+
+    const data = await res.json()
+    console.log(data)
+
+    setIsEdit(true)
+    setCurrentId(data.id_task)
+    setInputs({
+      title: data.title,
+      description: data.description,
+    })
+  }
+
+  // ==> Create a task : POST
   const createTask = async () => {
     const res = await fetch(`${API}/api/tasks`, {
       method: 'POST',
@@ -68,7 +87,28 @@ export const Article = () => {
     await getTasks(pagination.self)
   }
 
-  // -> Delete a task : DELETE
+  // ==> Update a task : PUT
+  const updateTask = async () => {
+    const res = await fetch(`${API}/api/tasks/${currentId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...inputs,
+      }),
+    })
+
+    const data = await res.json()
+    console.log(data)
+
+    setIsEdit(false)
+    setCurrentId(null)
+
+    await getTasks(pagination.self)
+  }
+
+  // ==> Delete a task : DELETE
   const deleteTask = async (idTask) => {
     const confirm = window.confirm('Are you sure you want to delete the task?')
 
@@ -84,7 +124,11 @@ export const Article = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    createTask()
+    if (!isEdit) {
+      createTask()
+    } else {
+      updateTask()
+    }
 
     setInputs({
       title: '',
@@ -123,7 +167,7 @@ export const Article = () => {
           </div>
           <div className='form__btn'>
             <ButtonFormTask className='form__btn-create' type='submit'>
-              Create
+              {!isEdit ? 'Create' : 'Update'}
             </ButtonFormTask>
           </div>
         </FormTask>
@@ -137,6 +181,7 @@ export const Article = () => {
               title={task.title}
               description={task.description}
               timestamp={task.timestamp}
+              getTask={getTask}
               deleteTask={deleteTask}
             />
           ))}
