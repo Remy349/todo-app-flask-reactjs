@@ -34,6 +34,8 @@ export const TextareaFormTask = styled.textarea`
 export const ButtonFormTask = styled.button`
   font-family: inherit;
   width: 100%;
+  background-color: ${(props) => (props.cancel ? '#DD5353' : '#6D9886')};
+  color: #f7f7f7;
   border-radius: 1rem;
   border: none;
   outline: none;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Card } from './articleComponents/Card'
-import { FiChevronRight, FiChevronLeft } from 'react-icons/fi'
+import { FiChevronRight, FiChevronLeft, FiAlertCircle } from 'react-icons/fi'
 import {
   FormTask,
   InputFormTask,
@@ -14,6 +14,10 @@ export const Article = () => {
   const [tasks, setTasks] = useState([])
   const [isEdit, setIsEdit] = useState(false)
   const [currentId, setCurrentId] = useState(null)
+  const [errorInputs, setErrorInputs] = useState({
+    title: false,
+    description: false,
+  })
   const [pagination, setPagination] = useState({
     next: '',
     prev: '',
@@ -31,6 +35,15 @@ export const Article = () => {
     setInputs({
       ...inputs,
       [name]: value,
+    })
+  }
+
+  const handleOnClickCancel = () => {
+    setIsEdit(false)
+    setCurrentId(null)
+    setInputs({
+      title: '',
+      description: '',
     })
   }
 
@@ -124,6 +137,21 @@ export const Article = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
+    // ==> Validate form fields
+    if (inputs.title === '') {
+      setErrorInputs({ title: true })
+      return
+    } else {
+      setErrorInputs({ title: false })
+    }
+
+    if (inputs.description === '') {
+      setErrorInputs({ description: true })
+      return
+    } else {
+      setErrorInputs({ description: false })
+    }
+
     if (!isEdit) {
       createTask()
     } else {
@@ -148,26 +176,48 @@ export const Article = () => {
             <InputFormTask
               type='text'
               name='title'
-              placeholder='Title'
-              className='form__input'
+              placeholder={errorInputs.title ? 'Please enter a value' : 'Title'}
+              className={
+                errorInputs.title ? 'form__input error-input' : 'form__input'
+              }
               autoComplete='off'
               value={inputs.title}
               onChange={handleInputChange}
+            />
+            <FiAlertCircle
+              style={
+                errorInputs.title ? { display: 'block' } : { display: 'none' }
+              }
+              className='form__alerticon'
             />
           </div>
           <div className='form__container'>
             <TextareaFormTask
               name='description'
-              className='form__textarea'
+              className={
+                errorInputs.description
+                  ? 'form__textarea error-input'
+                  : 'form__textarea'
+              }
               rows='4'
-              placeholder='Description'
+              placeholder={
+                errorInputs.description ? 'Please enter a value' : 'Description'
+              }
               value={inputs.description}
               onChange={handleInputChange}
             />
           </div>
           <div className='form__btn'>
-            <ButtonFormTask className='form__btn-create' type='submit'>
+            <ButtonFormTask type='submit'>
               {!isEdit ? 'Create' : 'Update'}
+            </ButtonFormTask>
+            <ButtonFormTask
+              style={!isEdit ? { display: 'none' } : { display: 'block' }}
+              cancel
+              type='button'
+              onClick={handleOnClickCancel}
+            >
+              Cancel
             </ButtonFormTask>
           </div>
         </FormTask>

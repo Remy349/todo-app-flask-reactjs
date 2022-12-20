@@ -8,6 +8,18 @@
 }
 
 .form {
+  &__container {
+    position: relative;
+  }
+
+  &__alerticon {
+    position: absolute;
+    color: c.$red-color;
+    right: 1rem;
+    top: 1rem;
+    font-size: 1.5rem;
+  }
+
   &__input {
     background-color: c.$bg-color-two;
     color: c.$font-color-two;
@@ -18,11 +30,17 @@
     color: c.$font-color-two;
   }
 
-  &__btn {
-    &-create {
-      background-color: c.$green-light-color;
-      color: c.$bg-color-two;
+  &__input,
+  &__textarea {
+    &.error-input {
+      border: 2px solid c.$red-color;
+      box-shadow: 0 4px 20px rgba(255,0,0,.3);
     }
+  }
+
+  &__btn {
+    display: grid;
+    row-gap: 1rem;
   }
 }
 
