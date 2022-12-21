@@ -1,0 +1,62 @@
+@media screen and (max-width: 330px) {
+  .container {
+    margin-left: 1.2rem;
+    margin-right: 1.2rem;
+  }
+}
+
+@media screen and (min-width: 568px) {
+  .article {
+    &__form {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .cards {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.5rem;
+
+    &__card {
+      height: fit-content;
+    }
+  }
+
+  .pagination {
+    width: 70%;
+    left: 15%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 1000px;
+  }
+
+  .pagination {
+    width: 60%;
+    left: 20%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 1160px;
+  }
+
+  .pagination {
+    width: 40%;
+    left: 30%;
+  }
+}

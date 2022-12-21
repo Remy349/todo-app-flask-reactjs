@@ -8,6 +8,8 @@ import {
   ButtonFormTask,
 } from './styled/FormStyled'
 
+import emptyImg from '../img/bubble-gum-signing-the-contract.png'
+
 const API = import.meta.env.VITE_API_URL
 
 export const Article = () => {
@@ -222,37 +224,43 @@ export const Article = () => {
           </div>
         </FormTask>
       </section>
-      <section className='article__content'>
-        <div className='cards'>
-          {tasks.map((task) => (
-            <Card
-              key={task.id_task}
-              idTask={task.id_task}
-              title={task.title}
-              description={task.description}
-              timestamp={task.timestamp}
-              getTask={getTask}
-              deleteTask={deleteTask}
-            />
-          ))}
-        </div>
-        <div className='pagination'>
-          <button
-            className='pagination__left'
-            type='button'
-            onClick={() => getTasks(pagination.prev)}
-          >
-            <FiChevronLeft className='pagination__left-icon' />
-          </button>
-          <button
-            className='pagination__right'
-            type='button'
-            onClick={() => getTasks(pagination.next)}
-          >
-            <FiChevronRight className='pagination__right-icon' />
-          </button>
-        </div>
-      </section>
+      {tasks.length === 0 ? (
+        <section className='article__empty'>
+          <img src={emptyImg} alt='Empty Image' />
+        </section>
+      ) : (
+        <section className='article__content'>
+          <div className='cards'>
+            {tasks.map((task) => (
+              <Card
+                key={task.id_task}
+                idTask={task.id_task}
+                title={task.title}
+                description={task.description}
+                timestamp={task.timestamp}
+                getTask={getTask}
+                deleteTask={deleteTask}
+              />
+            ))}
+          </div>
+          <div className='pagination'>
+            <button
+              className='pagination__left'
+              type='button'
+              onClick={() => getTasks(pagination.prev)}
+            >
+              <FiChevronLeft className='pagination__left-icon' />
+            </button>
+            <button
+              className='pagination__right'
+              type='button'
+              onClick={() => getTasks(pagination.next)}
+            >
+              <FiChevronRight className='pagination__right-icon' />
+            </button>
+          </div>
+        </section>
+      )}
     </article>
   )
 }

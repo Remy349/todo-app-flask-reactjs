@@ -4,6 +4,18 @@ export const FormTask = styled.form`
   width: 100%;
   display: grid;
   row-gap: 1rem;
+
+  @media screen and (min-width: 568px) {
+    width: 80%;
+  }
+
+  @media screen and (min-width: 1000px) {
+    width: 70%;
+  }
+
+  @media screen and (min-width: 1200px) {
+    width: 60%;
+  }
 `
 
 export const InputFormTask = styled.input`
