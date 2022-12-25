@@ -14,7 +14,7 @@ This is a basic application with the objective of being able to save your notes 
 
 ## Built with
 
-The project was developed from scratch with Frontend and Backend technologies, for the communication between the client and the server I implemented an REST API, which is responsible for returning the necessary data in JSON format to the client:
+The project was developed from scratch with Frontend and Backend technologies, for the communication between the client and the server I implemented a REST API, which is responsible for returning the necessary data in JSON format to the client:
 
 - Frontend:
   - ReactJS
