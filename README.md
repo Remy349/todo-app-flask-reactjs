@@ -24,7 +24,7 @@ The project was developed from scratch with Frontend and Backend technologies, f
 
 - Backend:
   - Python (Flask)
-  - PostgreSQL (As database manager)
+  - SQLite (As database manager)
   - Flask Migrate (To perform migrations)
   - SQLAlchemy and Flask SQLAlchemy (Python SQL toolkit and ORM that gives application developers the full power and flexibility of SQL)
   - REST API (For communication between client and server)
@@ -129,7 +129,75 @@ But if you want to start blank with no previously stored data delete the databas
 
 ### REST API
 
-Working on it....
+Everything related to the API is inside `flaskr/api/tasks.py`. The following table summarizes the routes that were implemented:
+
+| HTTP Method | Resource URL        | Notes                                   |
+| ----------- | ------------------- | --------------------------------------- |
+| `GET`       | */api/tasks*        | Return the collection of all tasks.     |
+| `GET`       | */api/tasks/id*     | Return a single task.                   |
+| `POST`      | */api/tasks*        | Register a new task.                    |
+| `PUT`       | */api/tasks/id*     | Modify the values of a task.            |
+| `DELETE`    | */api/tasks/id*     | Delete a task from the collection.      |
+
+The API provides the responses in JSON format that the Frontend needs, plus a pagination method was implemented to not send multiple data and thus not overload the client interface.
+
+If you make a `GET` request for all tasks you will see something like this:
+
+- `http://localhost:5000/api/tasks`
+
+```shell
+{
+  "items": [
+    {
+      "description": "Just doing some test to finally complete this project! :)",
+      "id_task": 1,
+      "timestamp": "Tue, 20 Dec 2022 02:25:49 GMT",
+      "title": "Test1"
+    },
+    {
+      "description": "Just doing some test to finally complete this project! :)",
+      "id_task": 2,
+      "timestamp": "Tue, 20 Dec 2022 02:26:02 GMT",
+      "title": "Test2"
+    },
+    {
+      "description": "Just doing some test to finally complete this project! :)",
+      "id_task": 3,
+      "timestamp": "Tue, 20 Dec 2022 02:26:09 GMT",
+      "title": "Test3"
+    },
+    {
+      "description": "Just doing some test to finally complete this project! :)",
+      "id_task": 4,
+      "timestamp": "Tue, 20 Dec 2022 02:26:22 GMT",
+      "title": "Test4"
+    },
+    {
+      "description": "Just doing some test to finally complete this project! :)",
+      "id_task": 6,
+      "timestamp": "Tue, 20 Dec 2022 02:27:23 GMT",
+      "title": "Test5"
+    },
+    {
+      "description": "Just doing some test to finally complete this project! :)",
+      "id_task": 7,
+      "timestamp": "Tue, 20 Dec 2022 04:37:03 GMT",
+      "title": "Test6"
+    }
+  ],
+  "links": {
+    "next": "/api/tasks?page=2&per_page=6",
+    "prev": null,
+    "self": "/api/tasks?page=1&per_page=6"
+  },
+  "meta": {
+    "page": 1,
+    "per_page": 6,
+    "total_items": 7,
+    "total_pages": 2
+  }
+}
+```
 
 ## Image gallery
 
