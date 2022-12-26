@@ -8,6 +8,7 @@ This is a basic application with the objective of being able to save your notes 
 - [Project requirements and how to use it](#project-requirements-and-how-to-use-it)
   - [Frontend](#frontend)
   - [Backend](#backend)
+  - [REST API](#rest-api)
 - [Image gallery](#image-gallery)
   - [Desktop](#desktop)
   - [Mobile](#mobile)
@@ -82,6 +83,53 @@ $ npm run dev
 3. That's all for the Frontend, if you haven't run the Backend yet, continue with the next section (Backend)
 
 ### Backend
+
+If you already have Python installed on your computer perform the following steps to run the Backend
+
+1. Move to the `/backend` folder and run the following command to create a virtual development environment with Python:
+
+```shell
+# If it doesn't work this way try "python3", this will depend on how you installed Python on your computer
+$ python -m venv venv
+```
+
+2. Now activate the development environment and install the necessary requirements found in the `requirements.txt` file:
+
+```shell
+# This is how it is done in Linux, in Windows it is as follows "venv\Scripts\activate"
+$ . venv/bin/activate
+# Now install the necessary requirements using "pip" or "pip3",
+# this will depend on how you installed Python on your computer
+(venv) $ pip install -r requirements.txt
+```
+
+3. Now you can start running the server:
+
+```shell
+(venv) $ flask run
+
+# You will see something like this:
+DATABASE_URI is OK!!!
+ * Serving Flask app 'application.py'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+```
+
+With this you will have your Python environment ready to work, it also has a database so you don't have to worry about that and it already has some data already entered so you can interact with the REST API.
+
+But if you want to start blank with no previously stored data delete the database and run the following command to create a new database (This step is optional):
+
+```shell
+# This will create a new database with the necessary tables to store the data 
+# if you want to know the table structure have a look at the "/flaskr/models.py" file.
+(venv) $ flask db upgrade
+```
+
+### REST API
+
+Workinn on it....
 
 ## Image gallery
 
