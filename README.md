@@ -129,7 +129,7 @@ But if you want to start blank with no previously stored data delete the databas
 
 ### REST API
 
-Workinn on it....
+Working on it....
 
 ## Image gallery
 
