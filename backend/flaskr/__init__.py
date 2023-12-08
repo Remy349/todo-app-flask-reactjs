@@ -1,32 +1,26 @@
+import flaskr.models
+
 from flask import Flask
-from config import Config
-from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
+from config import DevelopmentConfig
+from flaskr.extensions import db, jwt, api, cors, migrate
 
-db = SQLAlchemy()
-migrate = Migrate()
+from flaskr.controllers.user_controller import bp as user_controller
 
 
-def create_app(config_class=Config):
+def create_app(testing_config=None):
     app = Flask(__name__)
 
-    if not config_class.SQLALCHEMY_DATABASE_URI:
-        raise RuntimeError("DATABASE_URI is not set!")
+    if testing_config is None:
+        app.config.from_object(DevelopmentConfig)
     else:
-        print("DATABASE_URI is OK!!!")
-
-    app.config.from_object(config_class)
+        app.config.from_object(testing_config)
 
     db.init_app(app)
-    migrate.init_app(app, db, compare_type=True)
+    migrate.init_app(app, db)
+    jwt.init_app(app)
+    api.init_app(app)
+    cors.init_app(app)
 
-    CORS(app)
-
-    from flaskr.api import bp as api_bp
-    app.register_blueprint(api_bp, url_prefix="/api")
+    api.register_blueprint(user_controller, url_prefix="/api")
 
     return app
-
-
-from flaskr import models
