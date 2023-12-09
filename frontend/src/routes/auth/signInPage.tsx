@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '@/lib/utils'
 import { SignInFormSchema, TSignInFormSchema } from '@/types/types'
 import { ErrorMessageForm } from '@/components/ErrorMessageForm'
+import { Link } from 'react-router-dom'
 
 export const SignInPage = () => {
   const {
@@ -50,6 +51,7 @@ export const SignInPage = () => {
                   type='text'
                   id='email'
                   autoComplete='off'
+                  className={errors.email ? 'focus-visible:ring-red-500' : ''}
                 />
                 {errors.email && (
                   <ErrorMessageForm message={errors.email.message} />
@@ -69,6 +71,9 @@ export const SignInPage = () => {
                   {...register('password')}
                   type='password'
                   id='password'
+                  className={
+                    errors.password ? 'focus-visible:ring-red-500' : ''
+                  }
                 />
                 {errors.password && (
                   <ErrorMessageForm message={errors.password.message} />
@@ -80,6 +85,11 @@ export const SignInPage = () => {
                 )}
                 Sign In
               </Button>
+              <Link to='/auth/signup' className='text-center text-base'>
+                Don't have an account yet?
+                <br />
+                Create one
+              </Link>
             </form>
           </div>
         </div>

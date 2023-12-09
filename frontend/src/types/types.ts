@@ -9,3 +9,21 @@ export const SignInFormSchema = z.object({
 })
 
 export type TSignInFormSchema = z.infer<typeof SignInFormSchema>
+
+export const SignUpFormSchema = z
+  .object({
+    email: z
+      .string()
+      .min(1, { message: 'Email is required.' })
+      .email({ message: 'Not a valid email.' }),
+    password: z
+      .string()
+      .min(8, { message: 'Password must be at least 8 characters.' }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match.',
+    path: ['confirmPassword'],
+  })
+
+export type TSignUpFormSchema = z.infer<typeof SignUpFormSchema>

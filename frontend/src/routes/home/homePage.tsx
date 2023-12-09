@@ -15,7 +15,7 @@ export const HomePage = () => {
               to='/auth/signup'
               className={buttonVariants({
                 variant: 'link',
-                className: 'text-lg',
+                className: '!text-lg',
               })}
             >
               Create your own account
