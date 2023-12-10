@@ -39,18 +39,18 @@ export const SignInPage = () => {
   }
 
   return (
-    <section className='pt-16 pb-10'>
+    <section className='pt-16 pb-10 lg:pt-[6rem] lg:pb-[4.5rem]'>
       <div className='container'>
         <div>
-          <h1 className='text-center font-semibold text-3xl'>
+          <h1 className='text-center font-semibold text-3xl lg:text-4xl lg:max-w-3xl lg:mx-auto'>
             Welcome Back: Your{' '}
             <span className='text-primary'>Productivity</span> Journey Starts
             Here
           </h1>
-          <div className='mt-8'>
+          <div className='mt-8 md:flex md:justify-center md:mt-16'>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className='grid gap-y-6 w-full'
+              className='grid gap-y-6 w-full md:w-[468px]'
             >
               <div className='flex flex-col gap-y-2'>
                 <Label
