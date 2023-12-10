@@ -7,7 +7,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '@/lib/utils'
 import { SignInFormSchema, TSignInFormSchema } from '@/types/types'
 import { ErrorMessageForm } from '@/components/ErrorMessageForm'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { authenticateUser } from '@/services/api/authApi'
+import axios from 'axios'
+import { toast } from 'sonner'
+import { useAuth } from '@/store/auth'
 
 export const SignInPage = () => {
   const {
@@ -15,11 +19,23 @@ export const SignInPage = () => {
     register,
     handleSubmit,
   } = useForm<TSignInFormSchema>({ resolver: zodResolver(SignInFormSchema) })
+  const { setAuthUser } = useAuth()
+  const navigate = useNavigate()
 
-  const onSubmit = async (data: TSignInFormSchema) => {
-    console.log(data)
+  const onSubmit = async (formData: TSignInFormSchema) => {
+    await authenticateUser(formData)
+      .then((data) => {
+        setAuthUser(data)
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+        navigate('/profile')
+      })
+      .catch((err) => {
+        if (axios.isAxiosError(err)) {
+          if (err.response?.status === 401) {
+            toast.error('Invalid email or password.')
+          }
+        }
+      })
   }
 
   return (

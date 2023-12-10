@@ -3,11 +3,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
+import { createNewUser } from '@/services/api/userApi'
 import { SignUpFormSchema, TSignUpFormSchema } from '@/types/types'
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
 export const SignUpPage = () => {
   const {
@@ -15,11 +18,22 @@ export const SignUpPage = () => {
     handleSubmit,
     register,
   } = useForm<TSignUpFormSchema>({ resolver: zodResolver(SignUpFormSchema) })
+  const navigate = useNavigate()
 
-  const onSubmit = async (data: TSignUpFormSchema) => {
-    console.log(data)
+  const onSubmit = async (formData: TSignUpFormSchema) => {
+    await createNewUser(formData)
+      .then(() => {
+        toast.success('Account successfully created.')
 
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+        navigate('/auth/signin')
+      })
+      .catch((err) => {
+        if (axios.isAxiosError(err)) {
+          if (err.response?.status === 409) {
+            toast.error('Account already created.')
+          }
+        }
+      })
   }
 
   return (

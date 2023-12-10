@@ -27,3 +27,14 @@ export const SignUpFormSchema = z
   })
 
 export type TSignUpFormSchema = z.infer<typeof SignUpFormSchema>
+
+export type TUser = {
+  id: number
+  email: string
+  created_at: string
+}
+
+export type TAuthUser = {
+  access_token: string
+  email: string
+}
