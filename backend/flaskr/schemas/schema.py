@@ -1,4 +1,5 @@
 from marshmallow import Schema, fields
+from flaskr.schemas.plain_schema import PlainCategorySchema, PlainUserSchema
 
 
 class SignInSchema(Schema):
@@ -6,8 +7,9 @@ class SignInSchema(Schema):
     password = fields.Str(required=True)
 
 
-class UserSchema(Schema):
-    id = fields.Int(dump_only=True)
-    email = fields.Email(required=True)
-    password = fields.Str(required=True, load_only=True)
-    created_at = fields.DateTime(dump_only=True)
+class UserSchema(PlainUserSchema):
+    pass
+
+
+class CategorySchema(PlainCategorySchema):
+    user_id = fields.Int(required=True, load_only=True)

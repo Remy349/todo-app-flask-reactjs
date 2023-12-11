@@ -1,6 +1,6 @@
 from datetime import datetime
 from sqlalchemy import DateTime, Integer, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from flaskr.extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -19,6 +19,14 @@ class UserModel(db.Model):
         DateTime,
         nullable=False,
         default=datetime.utcnow,
+    )
+
+    # Relationships
+
+    categories = relationship(
+        "CategoryModel",
+        back_populates="user",
+        lazy="dynamic",
     )
 
     def set_password(self, password: str):
