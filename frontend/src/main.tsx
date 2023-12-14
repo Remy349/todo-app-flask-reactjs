@@ -6,6 +6,7 @@ import { Root } from './routes/root'
 import { HomePage } from './routes/home/homePage'
 import { SignInPage } from './routes/auth/signInPage'
 import { SignUpPage } from './routes/auth/signUpPage'
+import { ProfilePage } from './routes/profile/profilePage'
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: <h1>PROFILE</h1>,
+        element: <ProfilePage />,
       },
     ],
   },
