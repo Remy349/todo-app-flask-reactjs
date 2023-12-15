@@ -12,4 +12,4 @@ class UserSchema(PlainUserSchema):
 
 
 class CategorySchema(PlainCategorySchema):
-    user_id = fields.Int(required=True, load_only=True)
+    pass

@@ -6,15 +6,15 @@ category_service = CategoryService()
 user_service = UserService()
 
 
-def test_list_categories(client: Client):
+def test_list_categories_in_user(client: Client):
     user_data = {"email": "user1@test.com", "password": "11111111"}
-    user_service.create_new_user(user_data)
+    user = user_service.create_new_user(user_data)
 
-    for i in range(1, 6):
-        category_data = {"category_name": f"TestCategoryName{i}", "user_id": 1}
-        category_service.create_new_category(category_data)
+    for index in range(1, 6):
+        category_data = {"category_name": f"TestCategoryName{index}"}
+        category_service.create_new_category_in_user(category_data, user.id)
 
-    response = client.get("/api/categories")
+    response = client.get(f"/api/users/{user.id}/categories")
 
     assert response.status_code == 200
     assert len(response.json) == 5
@@ -22,10 +22,17 @@ def test_list_categories(client: Client):
 
 def test_create_new_category(client: Client):
     user_data = {"email": "user1@test.com", "password": "11111111"}
-    user_service.create_new_user(user_data)
+    user = user_service.create_new_user(user_data)
 
-    category_data = {"category_name": "TestCategoryName1", "user_id": 1}
+    auth_response = user_service.authenticate_user(user_data)
+    access_token = auth_response["access_token"]
 
-    response = client.post("/api/categories", json=category_data)
+    category_data = {"category_name": "TestCategoryName"}
+
+    response = client.post(
+        f"/api/users/{user.id}/categories",
+        json=category_data,
+        headers={"Authorization": f"Bearer {access_token}"},
+    )
 
     assert response.status_code == 201
