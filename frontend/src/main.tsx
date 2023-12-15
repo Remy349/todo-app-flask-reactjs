@@ -7,6 +7,8 @@ import { HomePage } from './routes/home/homePage'
 import { SignInPage } from './routes/auth/signInPage'
 import { SignUpPage } from './routes/auth/signUpPage'
 import { ProfilePage } from './routes/profile/profilePage'
+import { ProfileHomePage } from './routes/profile/profileHomePage'
+import { ProfileCategoriesPage } from './routes/profile/profileCategoriesPage'
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,16 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <ProfilePage />,
+        children: [
+          {
+            index: true,
+            element: <ProfileHomePage />,
+          },
+          {
+            path: 'categories',
+            element: <ProfileCategoriesPage />,
+          },
+        ],
       },
     ],
   },
