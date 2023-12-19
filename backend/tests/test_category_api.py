@@ -11,8 +11,11 @@ def test_list_categories_in_user(client: Client):
     user = user_service.create_new_user(user_data)
 
     for index in range(1, 6):
-        category_data = {"category_name": f"TestCategoryName{index}"}
-        category_service.create_new_category_in_user(category_data, user.id)
+        category_data = {
+            "category_name": f"TestCategoryName{index}",
+            "user_id": user.id,
+        }
+        category_service.create_new_category(category_data)
 
     response = client.get(f"/api/users/{user.id}/categories")
 
@@ -27,10 +30,10 @@ def test_create_new_category(client: Client):
     auth_response = user_service.authenticate_user(user_data)
     access_token = auth_response["access_token"]
 
-    category_data = {"category_name": "TestCategoryName"}
+    category_data = {"category_name": "TestCategoryName", "user_id": user.id}
 
     response = client.post(
-        f"/api/users/{user.id}/categories",
+        "/api/categories",
         json=category_data,
         headers={"Authorization": f"Bearer {access_token}"},
     )

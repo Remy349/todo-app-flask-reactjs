@@ -16,12 +16,12 @@ class CategoriesInUserController(MethodView):
         """Get a list of a user´s categories"""
         return category_service.list_categories_in_user(user_id)
 
+
+@bp.route("/categories")
+class CategoriesController(MethodView):
     @jwt_required()
     @bp.arguments(CategorySchema)
     @bp.response(201, CategorySchema)
-    def post(self, category_data, user_id):
-        """Create a new category in a user"""
-        return category_service.create_new_category_in_user(
-            category_data,
-            user_id,
-        )
+    def post(self, category_data):
+        """Create a new category"""
+        return category_service.create_new_category(category_data)

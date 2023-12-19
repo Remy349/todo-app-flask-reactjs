@@ -11,11 +11,11 @@ class CategoryService:
     def list_categories_in_user(self, user_id):
         return category_repository.get_categories_in_user(user_id)
 
-    def create_new_category_in_user(self, category_data, user_id):
-        user = user_repository.get_user_by_id(user_id)
+    def create_new_category(self, category_data):
+        user = user_repository.get_user_by_id(category_data["user_id"])
 
         category_created = category_repository.get_category_in_user_by_category_name(
-            user_id,
+            category_data["user_id"],
             category_data["category_name"],
         )
 
