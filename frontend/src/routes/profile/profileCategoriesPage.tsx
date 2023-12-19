@@ -7,10 +7,14 @@ import {
   DialogHeader,
 } from '@/components/ui/dialog'
 import { PlusSquare } from 'lucide-react'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
+import { LoadingData } from '@/components/LoadingData'
+import { EmptyData } from '@/components/EmptyData'
+import { useCategory } from '@/hooks/useCategory'
+import { CreateCategoryForm } from './components/CreateCategoryForm'
 
 export const ProfileCategoriesPage = () => {
+  const { isLoading, categories } = useCategory()
+
   return (
     <div>
       <header className='flex items-center justify-between'>
@@ -26,17 +30,24 @@ export const ProfileCategoriesPage = () => {
               <DialogTitle className='text-xl'>Create new category</DialogTitle>
             </DialogHeader>
             <div className='mt-4'>
-              <form className='grid w-full gap-y-6'>
-                <div className='flex flex-col gap-y-2'>
-                  <Label htmlFor='categoryName'>Category name</Label>
-                  <Input type='text' id='categoryName' autoComplete='off' />
-                </div>
-                <Button type='submit'>Confirm</Button>
-              </form>
+              <CreateCategoryForm />
             </div>
           </DialogContent>
         </Dialog>
       </header>
+      <div>
+        {isLoading ? (
+          <LoadingData />
+        ) : (
+          <div>
+            {categories.length === 0 ? (
+              <EmptyData title='No categories created yet' />
+            ) : (
+              <div></div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

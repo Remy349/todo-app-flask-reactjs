@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
-import { createNewUser } from '@/services/api/userApi'
+import { createUser } from '@/services/api/userApi'
 import { SignUpFormSchema, TSignUpFormSchema } from '@/types/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
@@ -21,7 +21,7 @@ export const SignUpPage = () => {
   const navigate = useNavigate()
 
   const onSubmit = async (formData: TSignUpFormSchema) => {
-    await createNewUser(formData)
+    await createUser(formData)
       .then(() => {
         toast.success('Account successfully created.')
 
