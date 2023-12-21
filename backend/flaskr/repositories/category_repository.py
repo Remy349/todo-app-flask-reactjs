@@ -5,6 +5,9 @@ from flaskr.models.user_model import UserModel
 
 
 class CategoryRepository:
+    def get_category_by_id(self, category_id):
+        return db.get_or_404(CategoryModel, category_id)
+
     def get_categories_in_user(self, user_id):
         user = db.get_or_404(UserModel, user_id)
 
@@ -22,3 +25,9 @@ class CategoryRepository:
         db.session.commit()
 
         return category
+
+    def delete_category(self, category):
+        db.session.delete(category)
+        db.session.commit()
+
+        return

@@ -39,3 +39,25 @@ def test_create_new_category(client: Client):
     )
 
     assert response.status_code == 201
+
+
+def test_remove_category_by_id(client: Client):
+    user_data = {"email": "user1@test.com", "password": "11111111"}
+    user = user_service.create_new_user(user_data)
+
+    for index in range(1, 6):
+        category_data = {
+            "category_name": f"TestCategoryName{index}",
+            "user_id": user.id,
+        }
+        category_service.create_new_category(category_data)
+
+    categories_in_user = client.get(f"/api/users/{user.id}/categories")
+
+    assert len(categories_in_user.json) == 5
+
+    client.delete(f"/api/categories/{5}")
+
+    categories_in_user = client.get(f"/api/users/{user.id}/categories")
+
+    assert len(categories_in_user.json) == 4

@@ -11,7 +11,7 @@ user_service = UserService()
 @bp.route("/auth/signin")
 class SignInController(MethodView):
     @bp.arguments(SignInSchema)
-    @bp.response(200)
+    @bp.response(201)
     def post(self, user_data):
         """Authenticate user"""
         return user_service.authenticate_user(user_data)

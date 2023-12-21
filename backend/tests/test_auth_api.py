@@ -11,4 +11,5 @@ def test_authenticate_user(client: Client):
 
     response = client.post("/api/auth/signin", json=user_data)
 
-    assert response.status_code == 200
+    assert response.status_code == 201
+    assert "access_token" in response.json

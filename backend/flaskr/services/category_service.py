@@ -26,3 +26,8 @@ class CategoryService:
         category.user = user
 
         return category_repository.create_category_in_user(category)
+
+    def remove_category_by_id(self, category_id):
+        category = category_repository.get_category_by_id(category_id)
+
+        return category_repository.delete_category(category)

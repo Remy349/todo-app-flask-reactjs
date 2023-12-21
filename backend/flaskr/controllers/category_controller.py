@@ -17,6 +17,14 @@ class CategoriesInUserController(MethodView):
         return category_service.list_categories_in_user(user_id)
 
 
+@bp.route("/categories/<category_id>")
+class CategoryController(MethodView):
+    @bp.response(204)
+    def delete(self, category_id):
+        """Delete a category by ID"""
+        return category_service.remove_category_by_id(category_id)
+
+
 @bp.route("/categories")
 class CategoriesController(MethodView):
     @jwt_required()
