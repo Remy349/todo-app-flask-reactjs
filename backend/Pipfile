@@ -4,8 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask = "*"
+python-dotenv = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+flask-smorest = "*"
+flask-cors = "*"
 
 [dev-packages]
+black = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.13"
