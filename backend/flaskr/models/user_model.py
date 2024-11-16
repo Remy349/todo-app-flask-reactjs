@@ -1,6 +1,6 @@
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
-from flaskr.extensions import db
+from flaskr.db import db
 
 
 class UserModel(db.Model):
