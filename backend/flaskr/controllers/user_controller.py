@@ -1,17 +1,36 @@
-from flask_smorest import Blueprint
-from flask.views import MethodView
-from flaskr.schemas.schema import UserSchema
-from flaskr.services.user_service import UserService
-
-bp = Blueprint("users", __name__, description="Operations on users")
-
-user_service = UserService()
+from flask_smorest import abort
+from sqlalchemy import select
+from sqlalchemy.exc import NoResultFound
+from flaskr.db import db
+from flaskr.models.user_model import UserModel
 
 
-@bp.route("/users")
-class UsersController(MethodView):
-    @bp.arguments(UserSchema)
-    @bp.response(201, UserSchema)
-    def post(self, user_data):
-        """Create a new user"""
-        return user_service.create_new_user(user_data)
+class UserController:
+    @staticmethod
+    def get_all():
+        return db.session.execute(select(UserModel)).scalars().all()
+
+    @staticmethod
+    def get_by_id(user_id):
+        try:
+            return db.session.execute(
+                select(UserModel).where(UserModel.id == user_id)
+            ).scalar_one()
+        except NoResultFound:
+            abort(404, message="User not found")
+
+    @staticmethod
+    def create(data):
+        pass
+
+    @staticmethod
+    def delete(user_id):
+        try:
+            user = db.session.execute(
+                select(UserModel).where(UserModel.id == user_id)
+            ).scalar_one()
+
+            db.session.delete(user)
+            db.session.commit()
+        except:
+            abort(404, message="User not found")
