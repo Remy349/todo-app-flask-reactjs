@@ -8,11 +8,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { SignInFormSchema, TSignInFormSchema } from "@/schemas/auth-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 export const SignInForm = () => {
-  const form = useForm();
+  const form = useForm<TSignInFormSchema>({
+    resolver: zodResolver(SignInFormSchema),
+    defaultValues: { email: "", password: "" },
+  });
 
   const {
     handleSubmit,
@@ -20,7 +25,7 @@ export const SignInForm = () => {
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = async (formData: any) => {};
+  const onSubmit = async (formData: TSignInFormSchema) => {};
 
   return (
     <Form {...form}>

@@ -8,11 +8,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  CreateAccountFormSchema,
+  TCreateAccountFormSchema,
+} from "@/schemas/auth-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 export const CreateAccountForm = () => {
-  const form = useForm();
+  const form = useForm<TCreateAccountFormSchema>({
+    resolver: zodResolver(CreateAccountFormSchema),
+    defaultValues: { username: "", email: "", password: "" },
+  });
 
   const {
     handleSubmit,
@@ -20,7 +28,7 @@ export const CreateAccountForm = () => {
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = async (formData: any) => {};
+  const onSubmit = async (formData: TCreateAccountFormSchema) => {};
 
   return (
     <Form {...form}>
