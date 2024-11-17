@@ -71,10 +71,10 @@
 
 @layer components {
   .cs-container {
-    @apply px-6 mx-auto;
+    @apply px-6 mx-auto md:max-w-3xl lg:max-w-5xl;
   }
 
   .cs-section {
-    @apply pt-[4rem] pb-[2.5rem];
+    @apply pt-[3rem] pb-[2.5rem] md:pb-[3.5rem];
   }
 }
