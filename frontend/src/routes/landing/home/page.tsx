@@ -6,7 +6,7 @@ export const HomePage = () => {
   return (
     <section className="cs-section">
       <div className="cs-container">
-        <h1 className="font-bold text-2xl text-center mb-2 md:text-3xl md:max-w-lg md:mx-auto lg:text-4xl">
+        <h1 className="font-bold text-2xl text-center mb-2 md:text-3xl md:max-w-lg md:mx-auto lg:text-4xl lg:max-w-xl">
           Effortless Task Management with TodoApp
         </h1>
         <p className="text-sm text-center text-muted-foreground mb-8 md:max-w-2xl md:mx-auto">
