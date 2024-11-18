@@ -13,8 +13,10 @@ import {
   TCreateAccountFormSchema,
 } from "@/schemas/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios, { AxiosError } from "axios";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export const CreateAccountForm = () => {
   const form = useForm<TCreateAccountFormSchema>({
@@ -25,10 +27,23 @@ export const CreateAccountForm = () => {
   const {
     handleSubmit,
     control,
+    reset,
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = async (formData: TCreateAccountFormSchema) => {};
+  const onSubmit = async (formData: TCreateAccountFormSchema) => {
+    try {
+      await axios.post("http://localhost:5000/api/v1/users", formData);
+
+      toast.success("Acount successfully created");
+
+      reset();
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message);
+      }
+    }
+  };
 
   return (
     <Form {...form}>
