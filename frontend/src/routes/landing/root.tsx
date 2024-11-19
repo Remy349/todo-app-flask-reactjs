@@ -1,8 +1,11 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./_components/navbar";
 import { Toaster } from "sonner";
+import { useSEO } from "@/hooks/useSEO";
 
 export const LandingRoot = () => {
+  useSEO("TodoApp");
+
   return (
     <>
       <Navbar />
