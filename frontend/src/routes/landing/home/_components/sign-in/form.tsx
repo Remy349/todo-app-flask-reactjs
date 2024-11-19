@@ -13,9 +13,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export const SignInForm = () => {
+  const navigate = useNavigate();
   const form = useForm<TSignInFormSchema>({
     resolver: zodResolver(SignInFormSchema),
     defaultValues: { email: "", password: "" },
@@ -30,6 +32,8 @@ export const SignInForm = () => {
   const onSubmit = async (formData: TSignInFormSchema) => {
     try {
       await axios.post("http://localhost:5000/api/v1/auth/sign-in", formData);
+
+      navigate("/dashboard");
     } catch (err) {
       if (err instanceof AxiosError) {
         toast.error(err.response?.data.message);
@@ -76,7 +80,7 @@ export const SignInForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="font-medium">
+        <Button type="submit" className="font-medium" disabled={isSubmitting}>
           {isSubmitting ? (
             <LoaderCircle className="size-5 animate-spin" />
           ) : (

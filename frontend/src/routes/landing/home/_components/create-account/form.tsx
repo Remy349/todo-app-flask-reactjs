@@ -102,7 +102,7 @@ export const CreateAccountForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="font-medium">
+        <Button type="submit" className="font-medium" disabled={isSubmitting}>
           {isSubmitting ? (
             <LoaderCircle className="size-5 animate-spin" />
           ) : (
