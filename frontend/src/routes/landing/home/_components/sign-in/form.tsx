@@ -10,8 +10,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignInFormSchema, TSignInFormSchema } from "@/schemas/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios, { AxiosError } from "axios";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export const SignInForm = () => {
   const form = useForm<TSignInFormSchema>({
@@ -25,7 +27,15 @@ export const SignInForm = () => {
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit = async (formData: TSignInFormSchema) => {};
+  const onSubmit = async (formData: TSignInFormSchema) => {
+    try {
+      await axios.post("http://localhost:5000/api/v1/auth/sign-in", formData);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message);
+      }
+    }
+  };
 
   return (
     <Form {...form}>
