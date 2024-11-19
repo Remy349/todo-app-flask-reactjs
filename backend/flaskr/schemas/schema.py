@@ -1,4 +1,4 @@
-from flaskr.schemas.plain_schema import PlainUserSchema
+from flaskr.schemas.plain_schema import PlainSignInSchema, PlainUserSchema
 
 
 class UserSchema(PlainUserSchema):
@@ -6,4 +6,8 @@ class UserSchema(PlainUserSchema):
 
 
 class CreateUserSchema(PlainUserSchema):
+    pass
+
+
+class SignInSchema(PlainSignInSchema):
     pass

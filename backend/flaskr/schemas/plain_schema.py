@@ -6,3 +6,8 @@ class PlainUserSchema(Schema):
     username = fields.Str(required=True)
     email = fields.Email(required=True)
     password = fields.Str(required=True, load_only=True)
+
+
+class PlainSignInSchema(Schema):
+    email = fields.Str(required=True)
+    password = fields.Str(required=True)
