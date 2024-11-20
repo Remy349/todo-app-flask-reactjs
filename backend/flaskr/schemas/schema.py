@@ -1,13 +1,17 @@
-from flaskr.schemas.plain_schema import PlainSignInSchema, PlainUserSchema
+from flaskr.schemas.plain_schema import (
+    PlainSignInSchema,
+    PlainTagSchema,
+    PlainUserSchema,
+)
 
 
 class UserSchema(PlainUserSchema):
     pass
 
 
-class CreateUserSchema(PlainUserSchema):
+class SignInSchema(PlainSignInSchema):
     pass
 
 
-class SignInSchema(PlainSignInSchema):
+class TagSchema(PlainTagSchema):
     pass

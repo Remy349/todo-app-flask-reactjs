@@ -1,6 +1,6 @@
 from flask_smorest import Blueprint
 from flask.views import MethodView
-from flaskr.schemas.schema import CreateUserSchema, UserSchema
+from flaskr.schemas.schema import UserSchema
 from flaskr.controllers.user_controller import UserController
 
 bp = Blueprint("users", __name__)
@@ -12,7 +12,7 @@ class Users(MethodView):
     def get(self):
         return UserController.get_all()
 
-    @bp.arguments(CreateUserSchema)
+    @bp.arguments(UserSchema)
     @bp.response(201)
     def post(self, data):
         return UserController.create(data)

@@ -11,3 +11,8 @@ class PlainUserSchema(Schema):
 class PlainSignInSchema(Schema):
     email = fields.Str(required=True)
     password = fields.Str(required=True)
+
+
+class PlainTagSchema(Schema):
+    id = fields.Int(dump_only=True)
+    name = fields.Str(required=True)
