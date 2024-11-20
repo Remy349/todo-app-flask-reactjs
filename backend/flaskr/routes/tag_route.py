@@ -10,9 +10,9 @@ bp = Blueprint("tags", __name__)
 class Tags(MethodView):
     @bp.response(200, TagSchema(many=True))
     def get(self):
-        TagController.get_all()
+        return TagController.get_all()
 
     @bp.arguments(TagSchema)
     @bp.response(201)
     def post(self, data):
-        TagController.create(data)
+        return TagController.create(data)
