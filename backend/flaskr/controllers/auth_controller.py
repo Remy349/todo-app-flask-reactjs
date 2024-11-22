@@ -21,7 +21,7 @@ class AuthController:
             ):
                 abort(401, message="Incorrect credentials")
 
-            token = create_access_token(identity=user_registered.id)
+            token = create_access_token(identity=str(user_registered.id))
 
             return {"token": token}
         except SQLAlchemyError:
