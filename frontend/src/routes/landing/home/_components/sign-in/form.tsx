@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SignInFormSchema, TSignInFormSchema } from "@/schemas/auth-schema";
+import { useAuthStore } from "@/stores/auth-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { LoaderCircle } from "lucide-react";
@@ -18,6 +19,7 @@ import { toast } from "sonner";
 
 export const SignInForm = () => {
   const navigate = useNavigate();
+  const { signIn } = useAuthStore();
   const form = useForm<TSignInFormSchema>({
     resolver: zodResolver(SignInFormSchema),
     defaultValues: { email: "", password: "" },
@@ -31,7 +33,14 @@ export const SignInForm = () => {
 
   const onSubmit = async (formData: TSignInFormSchema) => {
     try {
-      await axios.post("http://localhost:5000/api/v1/auth/sign-in", formData);
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/auth/sign-in",
+        formData,
+      );
+
+      const token: string = response.data.token;
+
+      signIn(token);
 
       navigate("/dashboard");
     } catch (err) {
