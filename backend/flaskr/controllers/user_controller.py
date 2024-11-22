@@ -1,3 +1,4 @@
+from flask_jwt_extended import get_jwt_identity
 from flask_smorest import abort
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound, SQLAlchemyError
@@ -52,8 +53,10 @@ class UserController:
             abort(500, message="Internal server error while creating user")
 
     @staticmethod
-    def delete(user_id):
+    def delete():
         try:
+            user_id = get_jwt_identity()
+
             user = db.session.execute(
                 select(UserModel).where(UserModel.id == user_id)
             ).scalar_one()

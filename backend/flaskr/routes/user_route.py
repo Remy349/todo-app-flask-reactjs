@@ -1,3 +1,4 @@
+from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint
 from flask.views import MethodView
 from flaskr.schemas.schema import UserSchema
@@ -24,6 +25,11 @@ class UserById(MethodView):
     def get(self, user_id):
         return UserController.get_by_id(user_id)
 
+
+@bp.route("/users/account")
+class UserAccount(MethodView):
+    @jwt_required()
     @bp.response(204)
-    def delete(self, user_id):
-        return UserController.delete(user_id)
+    def delete(self):
+        """Protected route"""
+        return UserController.delete()
