@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { CreateDialog } from "./create-dialog";
 
 export const EmptyState = () => {
   return (
@@ -7,9 +7,7 @@ export const EmptyState = () => {
       <p className="text-muted-foreground text-sm mb-6">
         Add some to get started
       </p>
-      <Button className="font-medium" size="sm">
-        Create a new task
-      </Button>
+      <CreateDialog />
     </div>
   );
 };
