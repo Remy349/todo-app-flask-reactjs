@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate
 
 
 class PlainUserSchema(Schema):
@@ -16,3 +16,13 @@ class PlainSignInSchema(Schema):
 class PlainTagSchema(Schema):
     id = fields.Int(dump_only=True)
     name = fields.Str(required=True)
+
+
+class PlainTaskSchema(Schema):
+    id = fields.Int(dump_only=True)
+    title = fields.Str(required=True)
+    content = fields.Str(required=True)
+    status = fields.Str(
+        validate=validate.OneOf(["PENDING", "IN_PROGRESS", "COMPLETED"]), required=True
+    )
+    created_at = fields.DateTime(dump_only=True, data_key="createdAt")
