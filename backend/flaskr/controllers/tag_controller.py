@@ -9,7 +9,7 @@ class TagController:
     @staticmethod
     def get_all():
         try:
-            return db.session.execute(select(TagModel)).scalars().all()
+            return db.session.execute(select(TagModel).limit(15)).scalars().all()
         except SQLAlchemyError:
             abort(500, message="Internal server error while fetching tags")
 
