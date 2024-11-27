@@ -31,5 +31,5 @@ class UserAccount(MethodView):
     @jwt_required()
     @bp.response(204)
     def delete(self):
-        """Protected route"""
+        """Protected route (JWT Required)"""
         return UserController.delete()
