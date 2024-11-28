@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "./_components/navbar";
 import { useSEO } from "@/hooks/useSEO";
+import { Toaster } from "sonner";
 
 export const DashboardRoot = () => {
   useSEO("Dashboard | TodoApp");
@@ -15,6 +16,7 @@ export const DashboardRoot = () => {
           </div>
         </section>
       </main>
+      <Toaster position="top-center" richColors />
     </>
   );
 };
