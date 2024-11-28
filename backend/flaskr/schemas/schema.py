@@ -20,4 +20,5 @@ class TagSchema(PlainTagSchema):
 
 
 class TaskSchema(PlainTaskSchema):
+    tag_name = fields.Str(dump_only=True, data_key="tagName")
     tag_id = fields.Int(required=True, load_only=True, data_key="tagId")
