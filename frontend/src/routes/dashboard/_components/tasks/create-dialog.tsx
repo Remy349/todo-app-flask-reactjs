@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { CreateForm } from "./form";
 
 export const CreateDialog = () => {
   return (
@@ -24,6 +25,7 @@ export const CreateDialog = () => {
             details to manage your to-dos effortlessly.
           </DialogDescription>
         </DialogHeader>
+        <CreateForm />
       </DialogContent>
     </Dialog>
   );
