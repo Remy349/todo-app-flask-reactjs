@@ -3,6 +3,7 @@ from flask_smorest import abort
 from sqlalchemy import select
 from sqlalchemy.exc import SQLAlchemyError
 from flaskr.db import db
+from flaskr.models.tag_model import TagModel
 from flaskr.models.task_model import TaskModel
 
 
@@ -12,13 +13,17 @@ class TaskController:
         try:
             user_id = get_jwt_identity()
 
-            print(user_id)
-
             return (
-                db.session.execute(
-                    select(TaskModel).where(TaskModel.user_id == user_id)
+                db.session.query(
+                    TaskModel.id,
+                    TaskModel.title,
+                    TaskModel.content,
+                    TaskModel.status,
+                    TaskModel.created_at,
+                    TagModel.name.label("tag_name"),
                 )
-                .scalars()
+                .where(user_id == user_id)
+                .join(TagModel, TaskModel.tag_id == TagModel.id)
                 .all()
             )
         except SQLAlchemyError:
