@@ -22,13 +22,14 @@ import { useForm } from "react-hook-form";
 import { useGetTagsQuery } from "@/services/queries/tags";
 import { CreateFormSchema, TCreateFormSchema } from "@/schemas/task-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { useAuthStore } from "@/stores/auth-store";
+import { useCreateTaskMutation } from "@/services/mutations/tasks";
 
 export const CreateForm = () => {
   const { data: tags = [] } = useGetTagsQuery();
   const { token } = useAuthStore();
+  const mutation = useCreateTaskMutation();
   const form = useForm<TCreateFormSchema>({
     resolver: zodResolver(CreateFormSchema),
     defaultValues: { title: "", content: "", tagId: "", status: "" },
@@ -42,21 +43,11 @@ export const CreateForm = () => {
   } = form;
 
   const onSubmit = async (formData: TCreateFormSchema) => {
-    try {
-      await axios.post("http://localhost:5000/api/v1/tasks", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    await mutation.mutateAsync({ token, formData });
 
-      toast.success("Task successfully created");
+    toast.success("Task successfully created");
 
-      reset();
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        toast.error(err.response?.data.message);
-      }
-    }
+    reset();
   };
 
   return (
