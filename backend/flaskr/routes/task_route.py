@@ -24,3 +24,12 @@ class TasksOnUser(MethodView):
     def get(self):
         """Protected route (JWT Required)"""
         return TaskController.get_all_on_user()
+
+
+@bp.route("/tasks/<task_id>")
+class TaskById(MethodView):
+    @jwt_required()
+    @bp.response(204)
+    def delete(self, task_id):
+        """Protected route (JWT Required)"""
+        return TaskController.delete(task_id)
