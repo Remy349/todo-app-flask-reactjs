@@ -10,9 +10,25 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { useDeleteTaskMutation } from "@/services/mutations/tasks";
+import { useAuthStore } from "@/stores/auth-store";
 import { Trash } from "lucide-react";
+import { toast } from "sonner";
 
-export const DeleteDialog = () => {
+interface IProps {
+  taskId: number;
+}
+
+export const DeleteDialog = ({ taskId }: IProps) => {
+  const mutation = useDeleteTaskMutation();
+  const { token } = useAuthStore();
+
+  const handleDelete = async () => {
+    await mutation.mutateAsync({ token, taskId });
+
+    toast.success("Task successfully deleted");
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -35,6 +51,7 @@ export const DeleteDialog = () => {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className={buttonVariants({ variant: "destructive" })}
+            onClick={handleDelete}
           >
             Continue
           </AlertDialogAction>

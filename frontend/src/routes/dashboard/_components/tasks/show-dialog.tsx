@@ -34,7 +34,7 @@ export const ShowDialog = ({ task }: IProps) => {
           <DialogDescription>{task.content}</DialogDescription>
         </DialogHeader>
         <div className="flex justify-end mt-6">
-          <DeleteDialog />
+          <DeleteDialog taskId={task.id} />
         </div>
       </DialogContent>
     </Dialog>
