@@ -3,6 +3,7 @@ import { TagBadge } from "../tags/tag-badge";
 import { StatusBadge } from "./status-badge";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
+import { ShowDialog } from "./show-dialog";
 
 interface IProps {
   task: Task;
@@ -12,7 +13,7 @@ export const TaskCard = ({ task }: IProps) => {
   return (
     <div className="border rounded-md p-4 bg-background">
       <div className="pb-2 flex items-center">
-        <h3 className="font-semibold line-clamp-1 text-sm">{task.title}</h3>
+        <ShowDialog task={task} />
         <Button className="size-8 ml-auto" variant="ghost" size="icon">
           <Pencil className="size-4" />
         </Button>
@@ -21,7 +22,6 @@ export const TaskCard = ({ task }: IProps) => {
         <TagBadge name={task.tagName} />
         <StatusBadge status={task.status} />
       </div>
-      <div></div>
     </div>
   );
 };
