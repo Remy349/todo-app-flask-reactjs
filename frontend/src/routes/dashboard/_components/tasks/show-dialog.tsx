@@ -9,8 +9,8 @@ import {
 import { Task } from "@/types/types";
 import { TagBadge } from "../tags/tag-badge";
 import { StatusBadge } from "./status-badge";
-import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
+import { DeleteDialog } from "./delete-dialog";
+
 interface IProps {
   task: Task;
 }
@@ -34,10 +34,7 @@ export const ShowDialog = ({ task }: IProps) => {
           <DialogDescription>{task.content}</DialogDescription>
         </DialogHeader>
         <div className="flex justify-end mt-6">
-          <Button variant="destructive" className="font-medium" size="sm">
-            Delete
-            <Trash />
-          </Button>
+          <DeleteDialog />
         </div>
       </DialogContent>
     </Dialog>
