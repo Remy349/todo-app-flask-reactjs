@@ -30,3 +30,16 @@ export const createTaskAPI = async (data: {
     },
   });
 };
+
+export const deleteTaskAPI = async (data: {
+  taskId: number;
+  token: string | null;
+}) => {
+  const { token, taskId } = data;
+
+  await axios.delete(`http://localhost:5000/api/v1/tasks/${taskId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
