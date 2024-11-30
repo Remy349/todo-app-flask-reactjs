@@ -2,7 +2,7 @@ from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint
 from flask.views import MethodView
 from flaskr.controllers.task_controller import TaskController
-from flaskr.schemas.schema import TaskSchema
+from flaskr.schemas.schema import TaskSchema, UpdateTaskSchema
 
 bp = Blueprint("tasks", __name__)
 
@@ -28,6 +28,13 @@ class TasksOnUser(MethodView):
 
 @bp.route("/tasks/<task_id>")
 class TaskById(MethodView):
+    @jwt_required()
+    @bp.arguments(UpdateTaskSchema)
+    @bp.response(200)
+    def put(self, data, task_id):
+        """Protected route (JWT Required)"""
+        return TaskController.update(data, task_id)
+
     @jwt_required()
     @bp.response(204)
     def delete(self, task_id):

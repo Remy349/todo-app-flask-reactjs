@@ -47,6 +47,25 @@ class TaskController:
             abort(500, message="Internal server error while creating task")
 
     @staticmethod
+    def update(data, task_id):
+        try:
+            task = db.session.execute(
+                select(TaskModel).where(TaskModel.id == task_id)
+            ).scalar_one()
+
+            task.title = data["title"]
+            task.content = data["content"]
+            task.status = data["status"]
+
+            db.session.add(task)
+            db.session.commit()
+        except NoResultFound:
+            abort(404, message="Task not found")
+        except SQLAlchemyError:
+            db.session.rollback()
+            abort(500, message="Internal server error while updating task")
+
+    @staticmethod
     def delete(task_id):
         try:
             task = db.session.execute(
