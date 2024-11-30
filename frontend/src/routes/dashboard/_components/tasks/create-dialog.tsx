@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { CreateForm } from "./form";
+import { CreateForm } from "./create-form";
 
 export const CreateDialog = () => {
   return (

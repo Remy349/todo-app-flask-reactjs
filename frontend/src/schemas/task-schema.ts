@@ -15,4 +15,8 @@ const FormSchema = z.object({
 
 export const CreateFormSchema = FormSchema;
 
+export const EditFormSchema = FormSchema.omit({ tagId: true });
+
 export type TCreateFormSchema = z.infer<typeof CreateFormSchema>;
+
+export type TEditFormSchema = z.infer<typeof EditFormSchema>;
