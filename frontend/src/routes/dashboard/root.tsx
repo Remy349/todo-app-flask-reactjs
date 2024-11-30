@@ -1,9 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { Navbar } from "./_components/navbar";
 import { useSEO } from "@/hooks/useSEO";
 import { Toaster } from "sonner";
+import { useAuthStore } from "@/stores/auth-store";
 
 export const DashboardRoot = () => {
+  const { isLoggedIn } = useAuthStore();
+
+  if (!isLoggedIn) {
+    return <Navigate to="/" />;
+  }
+
   useSEO("Dashboard | TodoApp");
 
   return (
