@@ -1,6 +1,6 @@
-# TODO App developed with Flask and ReactJS
+# TODO App built with Flask and ReactJS
 
-This is a basic application with the objective of being able to save your notes and have them stored in a database. The user is able to perform basic actions such as create, read, update and delete this data, a basic CRUD.
+This is an web app with the objective of being able to save your notes and have them stored in a database. The user is able to perform basic actions such as create, read, update and delete this data, a basic CRUD.
 
 ## Table of contents
 
@@ -10,8 +10,8 @@ This is a basic application with the objective of being able to save your notes 
   - [Backend](#backend)
   - [REST API](#rest-api)
 - [Image gallery](#image-gallery)
-  - [Desktop](#desktop)
-  - [Mobile](#mobile)
+  - [REST API](#rest-api-preview)
+  - [Frontend](#frontend-preview)
 
 ## Built with
 
@@ -19,8 +19,14 @@ The project was developed from scratch with Frontend and Backend technologies, f
 
 - Frontend:
   - ReactJS
-  - SCSS
-  - Styled Components
+  - TypeScript
+  - TailwindCSS
+  - Axios
+  - ShadcnUI
+  - React Router Dom
+  - React Hook Form
+  - Zustand
+  - React Query
 
 - Backend:
   - Python (Flask)
@@ -28,10 +34,14 @@ The project was developed from scratch with Frontend and Backend technologies, f
   - Flask Migrate (To perform migrations)
   - SQLAlchemy and Flask SQLAlchemy (Python SQL toolkit and ORM that gives application developers the full power and flexibility of SQL)
   - REST API (For communication between client and server)
+  - SwaggerUI
+  - Flask Smorest (Used for rest api creation and schema creation)
+  - Flask JWT Extended (For the creation of JWT)
+  - MVC (Software Design Pattern)
 
 ## Project requirements and how to use it
 
-For the project you must run both development environments at the same time, both the Frontend and the Backend. In the Frontend you will find JavaScript technologies (ReactJS) and in the Backend you will find Python technologies and tools (Flask), so you must have NodeJS and Python installed on your computer (As a reference this project was developed with version 3.9.6 of Python and 18.12.1 of NodeJS).
+For the project you must run both development environments at the same time, both the Frontend and the Backend. In the Frontend you will find JavaScript technologies (ReactJS) and in the Backend you will find Python technologies and tools (Flask), so you must have NodeJS and Python installed on your computer (As a reference this project was developed with version 3.13.0 of Python and 22.11.0 of NodeJS).
 
 I leave you links to NodeJS and Python for installation:
   - [NodeJS website](https://nodejs.org/en/)
@@ -45,7 +55,7 @@ $ git clone https://github.com/Remy349/todo-app-flask-reactjs.git
 $ cd todo-app-flask-reactjs
 ```
 
-If you did it correctly and there were no problems, you should see these folders in your terminal:
+If you did it correctly and there were no problems, you should see these folders:
 
 ```shell
 /backend
@@ -71,13 +81,11 @@ $ npm install
 $ npm run dev
 
 # You will see something like this:
-> frontend@0.0.0 dev
-> vite
-
-  VITE v3.2.4  ready in 2079 ms
+VITE v5.4.11  ready in 349 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
+  ➜  press h + enter to show help
 ```
 
 3. That's all for the Frontend, if you haven't run the Backend yet, continue with the next section (Backend)
@@ -103,19 +111,32 @@ $ . venv/bin/activate
 (venv) $ pip install -r requirements.txt
 ```
 
-3. Now you can start running the server:
+3. Create an .env file and add an environment variable for JWT creation:
+
+```shell
+# This is an example
+JWT_SECRET_KEY="c7d57142e46f169ce9dbeb8d96603e46"
+```
+
+4. Now you can start running the server:
 
 ```shell
 (venv) $ flask run
 
 # You will see something like this:
-DATABASE_URI is OK!!!
- * Serving Flask app 'application.py'
+* Serving Flask app 'application.py'
  * Debug mode: on
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
  * Running on http://127.0.0.1:5000
 Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 140-954-082
 ```
+
+5. Visit the path where the Swagger interface is located to see all the api endpoints:
+
+`http://localhost:5000/docs`
 
 With this you will have your Python environment ready to work, it also has a database so you don't have to worry about that and it already has some data already entered so you can interact with the REST API.
 
@@ -123,103 +144,48 @@ But if you want to start blank with no previously stored data delete the databas
 
 ```shell
 # This will create a new database with the necessary tables to store the data 
-# if you want to know the table structure have a look at the "/flaskr/models.py" file.
+# if you want to know the table structure have a look at the "/flaskr/models" folder.
 (venv) $ flask db upgrade
+```
+
+After you have done the previous step add some default data for the task labels. Do this by running the following command in the terminal:
+
+```shell
+python seed.py
 ```
 
 ### REST API
 
-Everything related to the API is inside `flaskr/api/tasks.py`. The following table summarizes the routes that were implemented:
+Everything related to the API is inside `flaskr/routes`. The following table summarizes the routes that were implemented:
 
-| HTTP Method | Resource URL        | Notes                                   |
-| ----------- | ------------------- | --------------------------------------- |
-| `GET`       | */api/tasks*        | Return the collection of all tasks.     |
-| `GET`       | */api/tasks/id*     | Return a single task.                   |
-| `POST`      | */api/tasks*        | Register a new task.                    |
-| `PUT`       | */api/tasks/id*     | Modify the values of a task.            |
-| `DELETE`    | */api/tasks/id*     | Delete a task from the collection.      |
-
-The API provides the responses in JSON format that the Frontend needs, plus a pagination method was implemented to not send multiple data and thus not overload the client interface.
-
-If you make a `GET` request for all tasks you will see something like this:
-
-- `http://localhost:5000/api/tasks`
-
-```shell
-{
-  "items": [
-    {
-      "description": "Just doing some test to finally complete this project! :)",
-      "id_task": 1,
-      "timestamp": "Tue, 20 Dec 2022 02:25:49 GMT",
-      "title": "Test1"
-    },
-    {
-      "description": "Just doing some test to finally complete this project! :)",
-      "id_task": 2,
-      "timestamp": "Tue, 20 Dec 2022 02:26:02 GMT",
-      "title": "Test2"
-    },
-    {
-      "description": "Just doing some test to finally complete this project! :)",
-      "id_task": 3,
-      "timestamp": "Tue, 20 Dec 2022 02:26:09 GMT",
-      "title": "Test3"
-    },
-    {
-      "description": "Just doing some test to finally complete this project! :)",
-      "id_task": 4,
-      "timestamp": "Tue, 20 Dec 2022 02:26:22 GMT",
-      "title": "Test4"
-    },
-    {
-      "description": "Just doing some test to finally complete this project! :)",
-      "id_task": 6,
-      "timestamp": "Tue, 20 Dec 2022 02:27:23 GMT",
-      "title": "Test5"
-    },
-    {
-      "description": "Just doing some test to finally complete this project! :)",
-      "id_task": 7,
-      "timestamp": "Tue, 20 Dec 2022 04:37:03 GMT",
-      "title": "Test6"
-    }
-  ],
-  "links": {
-    "next": "/api/tasks?page=2&per_page=6",
-    "prev": null,
-    "self": "/api/tasks?page=1&per_page=6"
-  },
-  "meta": {
-    "page": 1,
-    "per_page": 6,
-    "total_items": 7,
-    "total_pages": 2
-  }
-}
-```
+| HTTP Method | Resource URL            | Notes                                   |
+| ----------- | ----------------------- | --------------------------------------- |
+| `POST`      | */api/v1/auth/sign-in*  | Auth user and create JWT                |
+| `GET`       | */api/v1/users*         | Get a list of all users                 |
+| `POST`      | */api/v1/users*         | Create a new user                       |
+| `GET`       | */api/v1/users/id*      | Get a single user by id                 |
+| `DELETE`    | */api/v1/users/account* | Delete a user account                   |
+| `GET`       | */api/v1/tags*          | Get a list of tags                      |
+| `POST`      | */api/v1/tags*          | Create a new tag                        |
+| `POST`      | */api/v1/tasks*         | Create a new task                       |
+| `GET`       | */api/v1/tasks/user*    | Get a list of all tasks on user         |
+| `PUT`       | */api/v1/tasks/id*      | Update a task                           |
+| `DELETE`    | */api/v1/tasks/id*      | Delete a task                           |
 
 ## Image gallery
 
-### Desktop:
+### REST API Preview:
 
-![PREVIEW](./preview/preview.png)
 ![PREVIEW](./preview/preview1.png)
+![PREVIEW](./preview/preview2.png)
 
-### Mobile
+### Frontend Preview
 
-<table>
-  <tr>
-    <td>
-      <img src="./preview/preview-m.png" alt="Mobile" title="Mobile version" width="100%" />
-    </td>
-    <td>
-      <img src="./preview/preview-m1.png" alt="Mobile" title="Mobile version" width="100%" />
-    </td>
-    <td>
-      <img src="./preview/preview-m2.png" alt="Mobile" title="Mobile version" width="100%" />
-    </td>
-  </tr>
-</table>
+![PREVIEW](./preview/preview3.png)
+![PREVIEW](./preview/preview4.png)
+![PREVIEW](./preview/preview5.png)
+![PREVIEW](./preview/preview6.png)
+![PREVIEW](./preview/preview7.png)
+![PREVIEW](./preview/preview8.png)
 
 ### Developed by Santiago de Jesús Moraga Caldera - Remy349(GitHub)
