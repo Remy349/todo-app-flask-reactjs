@@ -15,4 +15,5 @@ export type Task = {
   status: Status;
   createdAt: Date;
   tagName: string;
+  isArchived: boolean;
 };

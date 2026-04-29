@@ -20,6 +20,7 @@ class TaskModel(db.Model):
     status: Mapped[TaskStatus] = mapped_column(
         SaEnum(TaskStatus), nullable=False, default=TaskStatus.PENDING
     )
+    is_archived: Mapped[bool] = mapped_column(default=False, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         index=True, default=lambda: datetime.now(timezone.utc)
     )

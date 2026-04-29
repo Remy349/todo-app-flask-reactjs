@@ -18,6 +18,38 @@ export const getTasksOnUserAPI = async () => {
   return response.data;
 };
 
+export const getArchivedTasksOnUserAPI = async () => {
+  const token = useAuthStore.getState().token;
+
+  const response = await axios.get<Task[]>(
+    "http://localhost:5000/api/v1/tasks/user/archived",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  return response.data;
+};
+
+export const toggleArchiveAPI = async (data: {
+  taskId: number;
+  token: string | null;
+}) => {
+  const { token, taskId } = data;
+
+  await axios.patch(
+    `http://localhost:5000/api/v1/tasks/${taskId}/toggle-archive`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+};
+
 export const createTaskAPI = async (data: {
   formData: TCreateFormSchema;
   token: string | null;
