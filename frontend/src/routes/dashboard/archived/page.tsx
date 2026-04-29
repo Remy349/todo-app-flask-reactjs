@@ -1,4 +1,4 @@
-import { ArchivedTasksSection } from "./_components/archived/section";
+import { ArchivedTasksSection } from "../_components/archived/section";
 
 export const ArchivedPage = () => {
   return (

@@ -1,5 +1,5 @@
 import { useGetArchivedTasksOnUserQuery } from "@/services/queries/tasks";
-import { TaskCard } from "./tasks/card";
+import { TaskCard } from "../tasks/card";
 
 export const ArchivedEmptyState = () => {
   return (
