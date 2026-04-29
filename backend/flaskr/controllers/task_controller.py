@@ -19,6 +19,7 @@ class TaskController:
                     TaskModel.title,
                     TaskModel.content,
                     TaskModel.status,
+                    TaskModel.due_date,
                     TaskModel.created_at,
                     TagModel.name.label("tag_name"),
                 )
@@ -34,7 +35,8 @@ class TaskController:
         try:
             user_id = get_jwt_identity()
 
-            print(data)
+            if not data.get("title") or not data["title"].strip():
+                abort(400, message="Title cannot be empty")
 
             create_data = {"user_id": user_id, **data}
 
@@ -53,9 +55,14 @@ class TaskController:
                 select(TaskModel).where(TaskModel.id == task_id)
             ).scalar_one()
 
+            if not data.get("title") or not data["title"].strip():
+                abort(400, message="Title cannot be empty")
+
             task.title = data["title"]
             task.content = data["content"]
             task.status = data["status"]
+            if "due_date" in data:
+                task.due_date = data["due_date"]
 
             db.session.add(task)
             db.session.commit()

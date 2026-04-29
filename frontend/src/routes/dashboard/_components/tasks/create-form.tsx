@@ -32,7 +32,7 @@ export const CreateForm = () => {
   const mutation = useCreateTaskMutation();
   const form = useForm<TCreateFormSchema>({
     resolver: zodResolver(CreateFormSchema),
-    defaultValues: { title: "", content: "", tagId: "", status: "" },
+    defaultValues: { title: "", content: "", tagId: "", status: "", dueDate: null },
   });
 
   const {
@@ -159,6 +159,24 @@ export const CreateForm = () => {
             )}
           />
         </div>
+        <FormField
+          control={form.control}
+          name="dueDate"
+          render={({ field }) => (
+            <FormItem className="space-y-1">
+              <FormLabel>Due Date (Optional)</FormLabel>
+              <FormControl>
+                <Input
+                  type="date"
+                  value={field.value || ""}
+                  onChange={(e) => field.onChange(e.target.value || null)}
+                  disabled={isSubmitting}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <DialogFooter>
           <Button className="font-medium" type="submit" disabled={isSubmitting}>
             {isSubmitting ? (
