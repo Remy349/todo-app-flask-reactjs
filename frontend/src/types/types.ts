@@ -13,6 +13,7 @@ export type Task = {
   title: string;
   content: string;
   status: Status;
+  dueDate: string | null;
   createdAt: Date;
   tagName: string;
   isArchived: boolean;

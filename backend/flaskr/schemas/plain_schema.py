@@ -25,5 +25,6 @@ class PlainTaskSchema(Schema):
     status = fields.Str(
         validate=validate.OneOf(["PENDING", "IN_PROGRESS", "COMPLETED"]), required=True
     )
+    due_date = fields.DateTime(allow_none=True, data_key="dueDate")
     is_archived = fields.Bool(dump_only=True, data_key="isArchived")
     created_at = fields.DateTime(dump_only=True, data_key="createdAt")

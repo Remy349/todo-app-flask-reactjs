@@ -49,6 +49,7 @@ export const EditForm = ({ task }: IProps) => {
       title: task.title,
       content: task.content,
       status: currentStatus[task.status],
+      dueDate: task.dueDate || null,
     },
   });
 
@@ -132,6 +133,24 @@ export const EditForm = ({ task }: IProps) => {
                   ))}
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="dueDate"
+          render={({ field }) => (
+            <FormItem className="space-y-1">
+              <FormLabel>Due Date (Optional)</FormLabel>
+              <FormControl>
+                <Input
+                  type="date"
+                  value={field.value || ""}
+                  onChange={(e) => field.onChange(e.target.value || null)}
+                  disabled={isSubmitting}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
