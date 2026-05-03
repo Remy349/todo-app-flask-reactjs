@@ -22,7 +22,7 @@ def create_app(test_config=None):
     db.init_app(app)
     migrate.init_app(app, db)
     api.init_app(app)
-    cors.init_app(app)
+    cors.init_app(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
     jwt.init_app(app)
 
     api.register_blueprint(auth_route, url_prefix="/api/v1")
