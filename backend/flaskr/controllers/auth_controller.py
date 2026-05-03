@@ -11,19 +11,31 @@ class AuthController:
     @staticmethod
     def sign_in(data):
         try:
+            email = data.get("email", "").lower().strip()
+            password = data.get("password", "")
+
             user_registered = db.session.execute(
-                select(UserModel).where(UserModel.email == data["email"])
+                select(UserModel).where(UserModel.email == email)
             ).scalar_one_or_none()
 
-            if (
-                user_registered is None
-                or check_password(user_registered.password, data["password"]) is False
-            ):
+            if not user_registered:
                 abort(401, message="Incorrect credentials")
 
-            token = create_access_token(identity=str(user_registered.id))
+            if not check_password(user_registered.password, password):
+                abort(401, message="Incorrect credentials")
 
-            return {"token": token}
-        except SQLAlchemyError:
-            db.session.rollback()
-            abort(500, message="Internal server error while sign in")
+            token = create_access_token(
+                identity=str(user_registered.id),
+                additional_claims={"role": user_registered.role},
+            )
+
+            return {
+                "token": token,
+                "role": user_registered.role,
+                "userId": user_registered.id,
+                "username": user_registered.username,
+            }
+
+        except Exception as e:
+            print("ERROR:", str(e))
+            abort(500, message=str(e))

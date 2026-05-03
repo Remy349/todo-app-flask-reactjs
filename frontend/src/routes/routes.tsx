@@ -3,6 +3,7 @@ import { LandingRoot } from "./landing/root";
 import { HomePage } from "./landing/home/page";
 import { DashboardRoot } from "./dashboard/root";
 import { DashboardHomePage } from "./dashboard/page";
+import { AdminPage } from "./admin/page";
 
 export const router = createBrowserRouter([
   {
@@ -14,5 +15,10 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardRoot />,
     children: [{ index: true, element: <DashboardHomePage /> }],
+  },
+  {
+    path: "/admin",
+    element: <DashboardRoot />,
+    children: [{ index: true, element: <AdminPage /> }],
   },
 ]);

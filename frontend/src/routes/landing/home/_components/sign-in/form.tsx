@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignInFormSchema, TSignInFormSchema } from "@/schemas/auth-schema";
 import { useAuthStore } from "@/stores/auth-store";
+import { Role } from "@/types/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { LoaderCircle } from "lucide-react";
@@ -39,8 +40,11 @@ export const SignInForm = () => {
       );
 
       const token: string = response.data.token;
+      const role: Role = response.data.role;
+      const userId: number = response.data.userId;
+      const username: string = response.data.username;
 
-      signIn(token);
+      signIn(token, role, userId, username);
 
       navigate("/dashboard");
     } catch (err) {

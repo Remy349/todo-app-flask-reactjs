@@ -1,15 +1,14 @@
 import flaskr.models
-
 from flask import Flask
 from config import DevelopmentConfig
 from flaskr.extensions import migrate, api, cors, jwt
 from flaskr.db import db
 
+# Import your routes
 from flaskr.routes.auth_route import bp as auth_route
 from flaskr.routes.user_route import bp as user_route
 from flaskr.routes.tag_route import bp as tag_route
 from flaskr.routes.task_route import bp as task_route
-
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -22,8 +21,10 @@ def create_app(test_config=None):
     db.init_app(app)
     migrate.init_app(app, db)
     api.init_app(app)
-    cors.init_app(app)
     jwt.init_app(app)
+    
+    cors.init_app(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
+
 
     api.register_blueprint(auth_route, url_prefix="/api/v1")
     api.register_blueprint(user_route, url_prefix="/api/v1")

@@ -2,13 +2,21 @@ from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint
 from flask.views import MethodView
 from flaskr.controllers.task_controller import TaskController
-from flaskr.schemas.schema import TaskSchema, UpdateTaskSchema
+from flaskr.schemas.schema import AdminTaskSchema, TaskSchema, UpdateTaskSchema
+from flaskr.utils import role_required
 
 bp = Blueprint("tasks", __name__)
 
 
 @bp.route("/tasks")
 class Tasks(MethodView):
+    @jwt_required()
+    @role_required("admin", "admin_viewer", "admin_manager")
+    @bp.response(200, AdminTaskSchema(many=True))
+    def get(self):
+        """Admin route (JWT + admin role required)"""
+        return TaskController.get_all()
+
     @jwt_required()
     @bp.arguments(TaskSchema)
     @bp.response(201)

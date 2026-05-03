@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores/auth-store";
+import { Shield } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const navigate = useNavigate();
-  const { logout } = useAuthStore();
+  const { logout, role } = useAuthStore();
+  const isAdmin = role === "admin" || role === "admin_viewer" || role === "admin_manager";
 
   const handleLogout = () => {
     logout();
@@ -17,14 +19,24 @@ export const Navbar = () => {
         <Link to="/dashboard" className="font-bold text-lg">
           TodoApp
         </Link>
-        <Button
-          className="font-medium"
-          size="sm"
-          variant="outline"
-          onClick={handleLogout}
-        >
-          Logout
-        </Button>
+        <div className="flex items-center gap-2">
+          {isAdmin ? (
+            <Button asChild className="font-medium" size="sm" variant="outline">
+              <Link to="/admin">
+                <Shield />
+                Admin
+              </Link>
+            </Button>
+          ) : null}
+          <Button
+            className="font-medium"
+            size="sm"
+            variant="outline"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </div>
       </nav>
     </header>
   );

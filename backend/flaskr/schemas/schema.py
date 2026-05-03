@@ -24,5 +24,11 @@ class TaskSchema(PlainTaskSchema):
     tag_id = fields.Int(required=True, load_only=True, data_key="tagId")
 
 
+class AdminTaskSchema(TaskSchema):
+    user_id = fields.Int(dump_only=True, data_key="userId")
+    username = fields.Str(dump_only=True)
+    user_email = fields.Email(dump_only=True, data_key="userEmail")
+
+
 class UpdateTaskSchema(PlainTaskSchema):
     pass

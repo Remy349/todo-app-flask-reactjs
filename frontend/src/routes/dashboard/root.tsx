@@ -6,12 +6,11 @@ import { useAuthStore } from "@/stores/auth-store";
 
 export const DashboardRoot = () => {
   const { isLoggedIn } = useAuthStore();
+  useSEO("Dashboard | TodoApp");
 
   if (!isLoggedIn) {
     return <Navigate to="/" />;
   }
-
-  useSEO("Dashboard | TodoApp");
 
   return (
     <>

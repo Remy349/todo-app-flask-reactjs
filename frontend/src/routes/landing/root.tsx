@@ -6,12 +6,11 @@ import { useAuthStore } from "@/stores/auth-store";
 
 export const LandingRoot = () => {
   const { isLoggedIn } = useAuthStore();
+  useSEO("TodoApp");
 
   if (isLoggedIn) {
     return <Navigate to="/dashboard" />;
   }
-
-  useSEO("TodoApp");
 
   return (
     <>

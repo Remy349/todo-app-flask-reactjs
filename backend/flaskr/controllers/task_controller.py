@@ -1,17 +1,42 @@
-from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import get_jwt, get_jwt_identity
 from flask_smorest import abort
 from sqlalchemy import select
 from sqlalchemy.exc import NoResultFound, SQLAlchemyError
 from flaskr.db import db
 from flaskr.models.tag_model import TagModel
 from flaskr.models.task_model import TaskModel
+from flaskr.models.user_model import UserModel
 
 
 class TaskController:
+    MANAGER_ROLES = ["admin", "admin_manager"]
+
+    @staticmethod
+    def get_all():
+        try:
+            return (
+                db.session.query(
+                    TaskModel.id,
+                    TaskModel.title,
+                    TaskModel.content,
+                    TaskModel.status,
+                    TaskModel.created_at,
+                    TaskModel.user_id,
+                    UserModel.username.label("username"),
+                    UserModel.email.label("user_email"),
+                    TagModel.name.label("tag_name"),
+                )
+                .join(UserModel, TaskModel.user_id == UserModel.id)
+                .join(TagModel, TaskModel.tag_id == TagModel.id)
+                .all()
+            )
+        except SQLAlchemyError:
+            abort(500, message="Internal server error while fetching tasks")
+
     @staticmethod
     def get_all_on_user():
         try:
-            user_id = get_jwt_identity()
+            user_id = int(get_jwt_identity())
 
             return (
                 db.session.query(
@@ -22,7 +47,7 @@ class TaskController:
                     TaskModel.created_at,
                     TagModel.name.label("tag_name"),
                 )
-                .where(user_id == user_id)
+                .where(TaskModel.user_id == user_id)
                 .join(TagModel, TaskModel.tag_id == TagModel.id)
                 .all()
             )
@@ -32,7 +57,7 @@ class TaskController:
     @staticmethod
     def create(data):
         try:
-            user_id = get_jwt_identity()
+            user_id = int(get_jwt_identity())
 
             print(data)
 
@@ -49,9 +74,11 @@ class TaskController:
     @staticmethod
     def update(data, task_id):
         try:
-            task = db.session.execute(
-                select(TaskModel).where(TaskModel.id == task_id)
-            ).scalar_one()
+            query = select(TaskModel).where(TaskModel.id == task_id)
+            if get_jwt().get("role") not in TaskController.MANAGER_ROLES:
+                query = query.where(TaskModel.user_id == int(get_jwt_identity()))
+
+            task = db.session.execute(query).scalar_one()
 
             task.title = data["title"]
             task.content = data["content"]
@@ -68,9 +95,11 @@ class TaskController:
     @staticmethod
     def delete(task_id):
         try:
-            task = db.session.execute(
-                select(TaskModel).where(TaskModel.id == task_id)
-            ).scalar_one()
+            query = select(TaskModel).where(TaskModel.id == task_id)
+            if get_jwt().get("role") not in TaskController.MANAGER_ROLES:
+                query = query.where(TaskModel.user_id == int(get_jwt_identity()))
+
+            task = db.session.execute(query).scalar_one()
 
             db.session.delete(task)
             db.session.commit()

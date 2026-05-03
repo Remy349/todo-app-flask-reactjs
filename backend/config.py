@@ -22,6 +22,10 @@ class Config(object):
 class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "data.db")
 
+    # JWT Secret Key
+    JWT_SECRET_KEY = "dev-jwt-secret"
+    SECRET_KEY = "dev-secret-key"
+
 
 class TestConfig(Config):
     pass
