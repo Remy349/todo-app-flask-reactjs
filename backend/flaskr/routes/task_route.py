@@ -26,6 +26,24 @@ class TasksOnUser(MethodView):
         return TaskController.get_all_on_user()
 
 
+@bp.route("/tasks/user/archived")
+class ArchivedTasksOnUser(MethodView):
+    @jwt_required()
+    @bp.response(200, TaskSchema(many=True))
+    def get(self):
+        """Protected route (JWT Required) - Get archived tasks"""
+        return TaskController.get_archived_on_user()
+
+
+@bp.route("/tasks/<task_id>/toggle-archive")
+class TaskToggleArchive(MethodView):
+    @jwt_required()
+    @bp.response(200)
+    def patch(self, task_id):
+        """Protected route (JWT Required) - Toggle archive status"""
+        return TaskController.toggle_archive(task_id)
+
+
 @bp.route("/tasks/<task_id>")
 class TaskById(MethodView):
     @jwt_required()

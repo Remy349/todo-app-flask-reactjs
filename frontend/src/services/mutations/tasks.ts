@@ -1,5 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createTaskAPI, deleteTaskAPI, updateTaskAPI } from "../api/tasks";
+import {
+  createTaskAPI,
+  deleteTaskAPI,
+  toggleArchiveAPI,
+  updateTaskAPI,
+} from "../api/tasks";
 
 export const useCreateTaskMutation = () => {
   const queryClient = useQueryClient();
@@ -30,6 +35,18 @@ export const useDeleteTaskMutation = () => {
     mutationFn: deleteTaskAPI,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+  });
+};
+
+export const useToggleArchiveMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: toggleArchiveAPI,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["archivedTasks"] });
     },
   });
 };

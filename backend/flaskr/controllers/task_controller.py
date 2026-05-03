@@ -20,15 +20,57 @@ class TaskController:
                     TaskModel.content,
                     TaskModel.status,
                     TaskModel.due_date,
+                    TaskModel.is_archived,
                     TaskModel.created_at,
                     TagModel.name.label("tag_name"),
                 )
-                .where(user_id == user_id)
+                .where(TaskModel.user_id == user_id)
+                .where(TaskModel.is_archived == False)
                 .join(TagModel, TaskModel.tag_id == TagModel.id)
                 .all()
             )
         except SQLAlchemyError:
             abort(500, message="Internal server error while fetching tasks on user")
+
+    @staticmethod
+    def get_archived_on_user():
+        try:
+            user_id = get_jwt_identity()
+
+            return (
+                db.session.query(
+                    TaskModel.id,
+                    TaskModel.title,
+                    TaskModel.content,
+                    TaskModel.status,
+                    TaskModel.is_archived,
+                    TaskModel.created_at,
+                    TagModel.name.label("tag_name"),
+                )
+                .where(TaskModel.user_id == user_id)
+                .where(TaskModel.is_archived == True)
+                .join(TagModel, TaskModel.tag_id == TagModel.id)
+                .all()
+            )
+        except SQLAlchemyError:
+            abort(500, message="Internal server error while fetching archived tasks")
+
+    @staticmethod
+    def toggle_archive(task_id):
+        try:
+            task = db.session.execute(
+                select(TaskModel).where(TaskModel.id == task_id)
+            ).scalar_one()
+
+            task.is_archived = not task.is_archived
+
+            db.session.add(task)
+            db.session.commit()
+        except NoResultFound:
+            abort(404, message="Task not found")
+        except SQLAlchemyError:
+            db.session.rollback()
+            abort(500, message="Internal server error while toggling archive status")
 
     @staticmethod
     def create(data):

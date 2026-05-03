@@ -33,7 +33,7 @@ export const CreateAccountForm = () => {
 
   const onSubmit = async (formData: TCreateAccountFormSchema) => {
     try {
-      await axios.post("http://localhost:5000/api/v1/users", formData);
+      await axios.post("http://localhost:5001/api/v1/users", formData);
 
       toast.success("Acount successfully created");
 

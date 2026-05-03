@@ -21,6 +21,7 @@ class TaskModel(db.Model):
         SaEnum(TaskStatus), nullable=False, default=TaskStatus.PENDING
     )
     due_date: Mapped[datetime] = mapped_column(nullable=True)
+    is_archived: Mapped[bool] = mapped_column(default=False, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         index=True, default=lambda: datetime.now(timezone.utc)
     )
