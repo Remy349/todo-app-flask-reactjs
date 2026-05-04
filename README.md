@@ -195,7 +195,8 @@ This project can be run using Docker for easier setup and execution.
 ### 1. Start the application
 
 ```bash
-docker compose up --build ```
+docker compose up --build 
+```
 
 ### 2. Access the services
 
@@ -211,6 +212,7 @@ http://localhost:5001/docs
 To seed the default task labels, run:
 ```md
 ```bash
-docker compose exec backend python seed.py```
+docker compose exec backend python seed.py
+```
 
 ### Developed by Santiago de Jesús Moraga Caldera - Remy349(GitHub)
