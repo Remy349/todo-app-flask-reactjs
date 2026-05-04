@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - 8080:5173
+    command: npm run dev -- --host 0.0.0.0
+
+  backend:
+    build: ./backend
+    ports:
+      - 5001:5000
+    environment:
+      - JWT_SECRET_KEY=c7d57142e46f169ce9dbeb8d96603e46
