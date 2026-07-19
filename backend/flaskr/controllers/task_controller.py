@@ -11,7 +11,7 @@ class TaskController:
     @staticmethod
     def get_all_on_user():
         try:
-            user_id = get_jwt_identity()
+            user_id = int(get_jwt_identity())
 
             return (
                 db.session.query(
@@ -35,7 +35,7 @@ class TaskController:
     @staticmethod
     def get_archived_on_user():
         try:
-            user_id = get_jwt_identity()
+            user_id = int(get_jwt_identity())
 
             return (
                 db.session.query(
@@ -75,7 +75,7 @@ class TaskController:
     @staticmethod
     def create(data):
         try:
-            user_id = get_jwt_identity()
+            user_id = int(get_jwt_identity())
 
             if not data.get("title") or not data["title"].strip():
                 abort(400, message="Title cannot be empty")

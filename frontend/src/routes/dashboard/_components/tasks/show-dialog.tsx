@@ -24,12 +24,17 @@ export const ShowDialog = ({ task }: IProps) => {
   const { token } = useAuthStore();
 
   const handleToggleArchive = async () => {
-    await mutation.mutateAsync({ token, taskId: task.id });
-    toast.success(
-      task.isArchived
-        ? "Task restored from archive"
-        : "Task moved to archive",
-    );
+    try {
+      await mutation.mutateAsync({ token, taskId: task.id });
+      toast.success(
+        task.isArchived
+          ? "Task restored from archive"
+          : "Task moved to archive",
+      );
+    } catch (error) {
+      toast.error("Failed to update archive status");
+      console.error(error);
+    }
   };
 
   const isCompleted = task.status === "TaskStatus.COMPLETED";

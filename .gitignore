@@ -1,0 +1,28 @@
+# Local development artifacts
+.claude/
+*.local
+
+# Database files (SQLite dev DB has personal test data)
+backend/data.db
+backend/data.db-journal
+backend/instance/
+
+# Virtual environments
+backend/venv/
+venv/
+.env.local
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db

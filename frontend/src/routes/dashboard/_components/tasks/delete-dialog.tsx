@@ -24,9 +24,14 @@ export const DeleteDialog = ({ taskId }: IProps) => {
   const { token } = useAuthStore();
 
   const handleDelete = async () => {
-    await mutation.mutateAsync({ token, taskId });
+    try {
+      await mutation.mutateAsync({ token, taskId });
 
-    toast.success("Task successfully deleted");
+      toast.success("Task successfully deleted");
+    } catch (error) {
+      toast.error("Failed to delete task");
+      console.error(error);
+    }
   };
 
   return (

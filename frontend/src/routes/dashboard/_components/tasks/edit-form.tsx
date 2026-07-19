@@ -60,9 +60,29 @@ export const EditForm = ({ task }: IProps) => {
   } = form;
 
   const onSubmit = async (formData: TEditFormSchema) => {
-    await mutation.mutateAsync({ taskId: task.id, token, formData });
+    try {
+      // Normalize dueDate to full ISO DateTime for the backend.
+      // - When editing a task with existing date, form holds "YYYY-MM-DDTHH:MM:SS"
+      // - When user types a new date, <input type="date"> gives "YYYY-MM-DD"
+      // Either way, send a full ISO DateTime; if already ISO, use as-is.
+      const normalizeDueDate = (v: string | null | undefined): string | null => {
+        if (!v) return null;
+        if (v.includes("T")) return v;
+        return `${v}T00:00:00`;
+      };
 
-    toast.success("Task successfully updated");
+      const payload = {
+        ...formData,
+        dueDate: normalizeDueDate(formData.dueDate),
+      };
+
+      await mutation.mutateAsync({ taskId: task.id, token, formData: payload });
+
+      toast.success("Task successfully updated");
+    } catch (error) {
+      toast.error("Failed to update task");
+      console.error(error);
+    }
   };
 
   return (
@@ -146,7 +166,9 @@ export const EditForm = ({ task }: IProps) => {
               <FormControl>
                 <Input
                   type="date"
-                  value={field.value || ""}
+                  value={
+                    field.value ? String(field.value).slice(0, 10) : ""
+                  }
                   onChange={(e) => field.onChange(e.target.value || null)}
                   disabled={isSubmitting}
                 />
