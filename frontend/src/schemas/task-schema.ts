@@ -1,3 +1,4 @@
+
 import { z } from "zod";
 
 const FormSchema = z.object({
@@ -10,7 +11,7 @@ const FormSchema = z.object({
     .min(1, { message: "Content is required" })
     .max(600, { message: "Max length is 600 characters" }),
   status: z.string().min(1, { message: "Status is required" }),
-  tagId: z.string().min(1, { message: "Tag is required" }),
+  tagId: z.coerce.number().int().positive({ message: "Tag is required" }),
   dueDate: z.string().nullable().optional(),
 });
 

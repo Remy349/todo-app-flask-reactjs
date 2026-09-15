@@ -3,7 +3,12 @@ import { TagBadge } from "../tags/tag-badge";
 import { StatusBadge } from "./status-badge";
 import { ShowDialog } from "./show-dialog";
 import { EditDialog } from "./edit-dialog";
-import { Calendar, AlertCircle } from "lucide-react";
+import { DeleteDialog } from "./delete-dialog";
+import { useToggleArchiveMutation } from "@/services/mutations/tasks";
+import { useAuthStore } from "@/stores/auth-store";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+import { Calendar, AlertCircle, Archive, ArchiveRestore } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface IProps {
@@ -41,12 +46,54 @@ const isToday = (dateString: string): boolean => {
 export const TaskCard = ({ task }: IProps) => {
   const overdue = task.dueDate ? isOverdue(task.dueDate, task.status) : false;
   const today = task.dueDate ? isToday(task.dueDate) : false;
+  const isCompleted = task.status === "TaskStatus.COMPLETED";
+
+  const archiveMutation = useToggleArchiveMutation();
+  const { token } = useAuthStore();
+
+  const handleToggleArchive = async () => {
+    try {
+      await archiveMutation.mutateAsync({ token, taskId: task.id });
+      toast.success(
+        task.isArchived
+          ? "Task restored from archive"
+          : "Task moved to archive",
+      );
+    } catch (error) {
+      toast.error("Failed to update archive status");
+      console.error(error);
+    }
+  };
 
   return (
     <div className="border rounded-md p-4 bg-background">
-      <div className="pb-2 flex items-center">
-        <ShowDialog task={task} />
-        <EditDialog task={task} />
+      <div className="pb-2 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          <ShowDialog task={task} />
+        </div>
+        <div className="flex items-center gap-1 shrink-0">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8"
+            onClick={handleToggleArchive}
+            disabled={archiveMutation.isPending || (!task.isArchived && !isCompleted)}
+            title={
+              !task.isArchived && !isCompleted
+                ? "Set status to Completed first"
+                : task.isArchived
+                ? "Restore from archive"
+                : "Archive"
+            }
+          >
+            {task.isArchived ? (
+              <ArchiveRestore className="size-4" />
+            ) : (
+              <Archive className="size-4" />
+            )}
+          </Button>
+          <EditDialog task={task} />
+        </div>
       </div>
       <div className="flex items-center gap-x-1 mb-2">
         <TagBadge name={task.tagName} />
@@ -70,6 +117,9 @@ export const TaskCard = ({ task }: IProps) => {
           </span>
         </div>
       )}
+      <div className="mt-3 flex justify-end">
+        <DeleteDialog taskId={task.id} />
+      </div>
     </div>
   );
 };

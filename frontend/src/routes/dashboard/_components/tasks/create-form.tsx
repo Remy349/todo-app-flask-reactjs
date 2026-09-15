@@ -43,11 +43,21 @@ export const CreateForm = () => {
   } = form;
 
   const onSubmit = async (formData: TCreateFormSchema) => {
-    await mutation.mutateAsync({ token, formData });
+    try {
+      const payload = {
+        ...formData,
+        dueDate: formData.dueDate ? `${formData.dueDate}T00:00:00` : null,
+      };
 
-    toast.success("Task successfully created");
+      await mutation.mutateAsync({ token, formData: payload });
 
-    reset();
+      toast.success("Task successfully created");
+
+      reset();
+    } catch (error) {
+      toast.error("Failed to create task");
+      console.error(error);
+    }
   };
 
   return (
@@ -112,7 +122,7 @@ export const CreateForm = () => {
                       <SelectItem
                         className="md:cursor-pointer"
                         key={tag.id}
-                        value={`${tag.id}`}
+                        value={String(tag.id)}
                       >
                         {tag.name}
                       </SelectItem>
@@ -168,7 +178,9 @@ export const CreateForm = () => {
               <FormControl>
                 <Input
                   type="date"
-                  value={field.value || ""}
+                  value={
+                    field.value ? String(field.value).slice(0, 10) : ""
+                  }
                   onChange={(e) => field.onChange(e.target.value || null)}
                   disabled={isSubmitting}
                 />
