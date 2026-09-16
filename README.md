@@ -188,4 +188,31 @@ Everything related to the API is inside `flaskr/routes`. The following table sum
 ![PREVIEW](./preview/preview7.png)
 ![PREVIEW](./preview/preview8.png)
 
+## Running with Docker
+
+This project can be run using Docker for easier setup and execution.
+
+### 1. Start the application
+
+```bash
+docker compose up --build 
+```
+
+### 2. Access the services
+
+Frontend:
+http://localhost:8080
+
+Backend:
+http://localhost:5001
+
+API Docks:
+http://localhost:5001/docs
+
+To seed the default task labels, run:
+```md
+```bash
+docker compose exec backend python seed.py
+```
+
 ### Developed by Santiago de Jesús Moraga Caldera - Remy349(GitHub)
