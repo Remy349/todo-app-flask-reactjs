@@ -1,0 +1,52 @@
+[project]
+name = "api"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Remy349", email = "santoraga15@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "flask>=3.1.3",
+    "flask-cors>=6.0.5",
+    "flask-jwt-extended>=4.7.4",
+    "flask-migrate>=4.1.0",
+    "flask-smorest>=0.47.0",
+    "flask-sqlalchemy>=3.1.1",
+    "python-dotenv>=1.2.3",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.13,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "todo_api"
+
+[dependency-groups]
+dev = ["pytest>=8.3", "ruff>=0.9", "import-linter>=2.0"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.importlinter]
+root_packages = ["todo_api"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "Domain is pure"
+type = "forbidden"
+source_modules = ["todo_api.domain"]
+forbidden_modules = ["todo_api.application", "todo_api.infrastructure", "flask", "sqlalchemy", "marshmallow", "flask_smorest", "flask_jwt_extended"]
+
+[[tool.importlinter.contracts]]
+name = "Application depends only on the domain"
+type = "forbidden"
+source_modules = ["todo_api.application"]
+forbidden_modules = ["todo_api.infrastructure", "flask", "sqlalchemy", "marshmallow", "flask_smorest", "flask_jwt_extended"]

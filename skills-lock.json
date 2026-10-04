@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "hexagonal-python": {
+      "source": "Remy349/skills",
+      "sourceType": "github",
+      "skillPath": "skills/hexagonal-python/SKILL.md",
+      "computedHash": "a47722ce64d8092178865336ca218925e41ba649e370b28a55914d09ee4268a0"
+    }
+  }
+}

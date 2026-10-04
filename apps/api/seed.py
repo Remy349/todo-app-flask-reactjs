@@ -1,6 +1,6 @@
-from flaskr import create_app
-from flaskr.models.tag_model import TagModel
-from flaskr.db import db
+from todo_api.app import create_app
+from todo_api.infrastructure.persistence.database import db
+from todo_api.infrastructure.persistence.models import TagModel
 
 
 def seed_tags():
@@ -39,7 +39,7 @@ def seed_tags():
                 db.session.add(new_tag)
                 db.session.commit()
 
-            print(f"Inserted new tags")
+            print("Inserted new tags")
     except Exception as err:
         db.session.rollback()
         print(f"Error while seeding: {err}")
